@@ -47,7 +47,7 @@ function lanzar_curso(user) {
       loguear('browser close');
 
       //console.log("total:", ((Date.now() - start_time) / 1000).toFixed(2), user_email)
-      resolve({ status: true, user_email: user_email, total_time: ((Date.now() - start_time) / 1000).toFixed(2) })
+      resolve({ status: true, user_email: user_email, total_time: ((Date.now() - start_time) / 1000).toFixed(2), hostname: global.device_data.hostname })
 
 
       async function capturar(fn) {

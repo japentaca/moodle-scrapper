@@ -9,6 +9,7 @@ let device_data = {
   platform: os.platform(),
   arch: os.arch(), release: os.release(), totalmem: os.totalmem() / 1024, freemem: os.freemem() / 1024, hostname: os.hostname(), cpus: os.cpus().length
 }
+global.device_data = device_data
 //console.log(device_data)
 client_socket.on('connect', () => {
   console.log('socket connected');
@@ -36,7 +37,7 @@ client_socket.on("start_scrapper", async (data) => {
   let res = await Promise.all(prom_arr)
   await delay(1000)
   client_socket.emit("end_scrapper",
-    { res: res, start_time: start_time, duration: ((Date.now() - start_time) / 1000).toFixed(2), hostname: device_data.hostname }
+    res
   )
 
   console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
