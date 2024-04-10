@@ -24,16 +24,8 @@ setInterval(async () => {
   for (let i = 0; i < users.length; i++) {
     let user = users[i].split(',')
     console.log("-----Elemento ", i, "--------", user[0])
-    lanzar_curso(user)
-    i++
-    user = users[i].split(',')
-    console.log("-----Elemento ", i, "--------", user[0])
-    lanzar_curso(user)
-
-    i++
-    user = users[i].split(',')
-    console.log("-----Elemento ", i, "--------", user[0])
     await lanzar_curso(user)
+
 
   }
   procesando = false
