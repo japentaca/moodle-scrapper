@@ -40,11 +40,12 @@ function lanzar_curso(user) {
       loguear('post login  ' + url);
       //await capturar("post login")
       await page.close()
+      loguear('page close');
       //await delay(20000)
       await browser.close();
-      loguear('close');
+      loguear('browser close');
 
-      console.log("total:", ((Date.now() - start_time) / 1000).toFixed(2), user_email)
+      //console.log("total:", ((Date.now() - start_time) / 1000).toFixed(2), user_email)
       resolve({ status: true, user_email: user_email, total_time: ((Date.now() - start_time) / 1000).toFixed(2) })
 
 
