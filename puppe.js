@@ -39,7 +39,7 @@ function lanzar_curso(user) {
 
       loguear('post login  ' + url);
       //await capturar("post login")
-
+      await page.close()
       //await delay(20000)
       await browser.close();
       loguear('close');
