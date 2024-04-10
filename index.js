@@ -3,7 +3,7 @@ console.log("start")
 import { lanzar_curso } from './puppe.js'
 import os, { hostname } from 'os'
 import { io } from 'socket.io-client';
-const client_socket = io("http://localhost:3000");
+const client_socket = io("http://167.172.44.239:46302");
 global.client_socket = client_socket
 let device_data = {
   platform: os.platform(),
