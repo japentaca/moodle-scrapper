@@ -15,7 +15,8 @@ function lanzar_curso(user) {
       loguear('lanzar_curso ' + user_email);
 
       const browser = await puppeteer.launch({
-        headless: "shell"
+        headless: "shell",
+        args: ['--no-sandbox']
       });
       const page = await browser.newPage();
       page.setDefaultNavigationTimeout(0);
