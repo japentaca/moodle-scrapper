@@ -25,6 +25,7 @@ function lanzar_curso(user) {
       // Navigate the page to a URL
       await page.goto(url);
       loguear('entrada a  ' + url);
+      await page.waitForNetworkIdle();
       await page.setViewport({ width: 1080, height: 1024 });
       //await capturar("login")
 
