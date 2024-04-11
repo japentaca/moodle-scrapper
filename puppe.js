@@ -7,7 +7,7 @@ function lanzar_curso(user, directory) {
   const user_email = user[0]
   return new Promise(async (resolve, reject) => {
     try {
-
+      await delay(Math.random() * 5000)
       let start_time = Date.now()
 
       let last_log_time = Date.now()
