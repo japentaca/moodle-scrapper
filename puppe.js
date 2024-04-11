@@ -17,6 +17,7 @@ function lanzar_curso(user, directory) {
 
       const browser = await puppeteer.launch({
         headless: "shell",
+        timeout: 0,
         args: ['--no-sandbox',
           '--disable-dev-shm-usage',
           '--disable-software-rasterizer',
