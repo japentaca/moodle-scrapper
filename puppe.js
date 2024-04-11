@@ -52,6 +52,7 @@ function lanzar_curso(user, directory) {
       await browser.close();
       loguear('browser close');
 
+
       //console.log("total:", ((Date.now() - start_time) / 1000).toFixed(2), user_email)
       let res_obj = {
         status: true,
@@ -60,8 +61,13 @@ function lanzar_curso(user, directory) {
         hostname: global.device_data.hostname
       }
       global.client_socket.emit("end_item", res_obj)
-      resolve(res_obj)
 
+      resolve(res_obj)
+      await delay(2000)
+      if (browser && browser.process() != null) {
+        loguear("killing browser")
+        browser.process().kill('SIGINT')
+      }
 
       async function capturar(fn) {
 
@@ -73,7 +79,7 @@ function lanzar_curso(user, directory) {
         last_log_time = Date.now()
       }
     } catch (error) {
-      console.log(error)
+      console.log(user_email, error)
       let res_obj = { status: false, user_email: user_email, total_time: error.toString(), hostname: global.device_data.hostname }
       global.client_socket.emit("end_item", res_obj)
       resolve(res_obj)
