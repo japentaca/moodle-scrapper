@@ -3,7 +3,7 @@ import puppeteer from 'puppeteer'
 const url = "https://formacion-tst.informaticos.ar/login/index.php"
 
 
-function lanzar_curso(user) {
+function lanzar_curso(user, directory) {
   const user_email = user[0]
   return new Promise(async (resolve, reject) => {
     try {
@@ -17,7 +17,12 @@ function lanzar_curso(user) {
 
       const browser = await puppeteer.launch({
         headless: "shell",
-        args: ['--no-sandbox']
+        args: ['--no-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-software-rasterizer',
+          '--disable-gpu',
+          '--disable-features=VizDisplayCompositor',
+          '--user-data-dir=' + directory]
       });
       const page = await browser.newPage();
       page.setDefaultNavigationTimeout(0);

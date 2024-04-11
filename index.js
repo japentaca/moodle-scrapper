@@ -2,6 +2,7 @@
 console.log("start")
 import { lanzar_curso } from './puppe.js'
 import os, { hostname } from 'os'
+import fs from 'fs';
 import { io } from 'socket.io-client';
 const client_socket = io("http://167.172.44.239:46302");
 global.client_socket = client_socket
@@ -28,14 +29,22 @@ client_socket.on("start_scrapper", async (data) => {
   for (let i = 0; i < data.length; i++) {
     let user = data[i].split(',')
     console.log("-----Elemento ", i, "--------", user[0])
+    let directory = process.cwd() + '/userdata/' + i
+    console.log("userdir", directory)
+    try {
+      fs.rmSync(directory, { recursive: true, force: true });
+      fs.mkdirSync(directory);
+    } catch (error) {
+      console.log(error)
+    }
 
-    prom_arr.push(lanzar_curso(user))
+    prom_arr.push(lanzar_curso(user, directory))
 
     //lanzar_curso(user)
   }
 
   let res = await Promise.all(prom_arr)
-  await delay(1000)
+  //await delay(1000)
   client_socket.emit("end_scrapper",
     res
   )
