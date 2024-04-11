@@ -1,9 +1,9 @@
 import puppeteer from 'puppeteer'
 
-const url = "https://formacion-tst.informaticos.ar/login/index.php"
+//const url = "https://formacion-tst.informaticos.ar/login/index.php"
 
 
-function lanzar_curso(user, directory) {
+function lanzar_curso(user, directory, url) {
   const user_email = user[0]
   let page
   let last_log = ""

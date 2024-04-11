@@ -25,9 +25,10 @@ client_socket.on("ping", (data) => {
 client_socket.on("start_scrapper", async (data) => {
   console.log("start scrapper")
   let start_time = Date.now()
+  let users = data.users
   let prom_arr = []
-  for (let i = 0; i < data.length; i++) {
-    let user = data[i].split(',')
+  for (let i = 0; i < users.length; i++) {
+    let user = users[i].split(',')
     console.log("-----Elemento ", i, "--------", user[0])
     let directory = process.cwd() + '/userdata/' + i
     console.log("userdir", directory)
@@ -41,7 +42,7 @@ client_socket.on("start_scrapper", async (data) => {
       console.log(error)
     }
 
-    prom_arr.push(lanzar_curso(user, directory))
+    prom_arr.push(lanzar_curso(user, directory, data.url))
 
     //lanzar_curso(user)
   }
