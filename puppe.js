@@ -9,6 +9,7 @@ function lanzar_curso(user, directory) {
   let last_log = ""
   return new Promise(async (resolve, reject) => {
     try {
+      let response = null
       await delay(Math.random() * 5000 + 1000)
       let start_time = Date.now()
 
@@ -19,6 +20,7 @@ function lanzar_curso(user, directory) {
 
       const browser = await puppeteer.launch({
         headless: "shell",
+        //headless: false,
         timeout: 0,
         args: ['--no-sandbox',
           '--disable-dev-shm-usage',
@@ -44,10 +46,14 @@ function lanzar_curso(user, directory) {
       //await page.waitForNetworkIdle();
       await delay(Math.random() * 2000 + 1000)
       await page.type("#username", user[0]);
+      await delay(Math.random() * 2000 + 1000)
       await page.type("#password", user[1]);
       //await capturar("tipeo")
       await delay(Math.random() * 2000 + 1000)
-      await page.click("#loginbtn");
+      response = await page.click("#loginbtn");
+
+
+
       loguear('click login ' + url);
       await page.waitForNetworkIdle();
 
