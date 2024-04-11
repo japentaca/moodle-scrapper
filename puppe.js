@@ -6,6 +6,7 @@ const url = "https://formacion-tst.informaticos.ar/login/index.php"
 function lanzar_curso(user, directory) {
   const user_email = user[0]
   let page
+  let last_log = ""
   return new Promise(async (resolve, reject) => {
     try {
       await delay(Math.random() * 5000 + 1000)
@@ -64,7 +65,8 @@ function lanzar_curso(user, directory) {
         status: true,
         user_email: user_email,
         total_time: ((Date.now() - start_time) / 1000).toFixed(2),
-        hostname: global.device_data.hostname
+        hostname: global.device_data.hostname,
+        last_log: last_log
       }
       global.client_socket.emit("end_item", res_obj)
 
@@ -80,11 +82,12 @@ function lanzar_curso(user, directory) {
 
         console.log(user_email, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
         last_log_time = Date.now()
+        last_log = texto
       }
     } catch (error) {
-      capturar("error", user_email)
+      capturar("error", user_email, "last_log", last_log)
       console.log(user_email, error.toString())
-      let res_obj = { status: false, user_email: user_email, total_time: error.toString(), hostname: global.device_data.hostname }
+      let res_obj = { status: false, user_email: user_email, total_time: error.toString(), hostname: global.device_data.hostname, last_log: last_log }
       global.client_socket.emit("end_item", res_obj)
       resolve(res_obj)
 
