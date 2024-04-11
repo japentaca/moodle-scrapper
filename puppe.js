@@ -4,13 +4,14 @@ const url = "https://formacion-tst.informaticos.ar/login/index.php"
 
 
 function lanzar_curso(user) {
+  const user_email = user[0]
   return new Promise(async (resolve, reject) => {
     try {
 
       let start_time = Date.now()
 
       let last_log_time = Date.now()
-      const user_email = user[0]
+
 
       loguear('lanzar_curso ' + user_email);
 
@@ -61,7 +62,7 @@ function lanzar_curso(user) {
       }
     } catch (error) {
       console.log(error)
-      resolve({ status: false, error: error })
+      resolve({ status: false, user_email: user_email, total_time: error.toString(), hostname: global.device_data.hostname })
 
     }
   })
