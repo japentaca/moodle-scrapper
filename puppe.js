@@ -32,9 +32,10 @@ function lanzar_curso(user, directory) {
       //loguear('newPage');
 
       // Navigate the page to a URL
-      await page.goto(url);
-      loguear('entrada a  ' + url);
-      await page.waitForNetworkIdle();
+      loguear('entro a ' + url);
+      await page.goto(url, { waitUntil: 'domcontentloaded' });
+      loguear('entré a ' + url);
+      //await page.waitForNetworkIdle();
       await page.setViewport({ width: 1080, height: 1024 });
       //await capturar("login")
 
