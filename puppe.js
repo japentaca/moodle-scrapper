@@ -48,7 +48,14 @@ function lanzar_curso(user) {
       loguear('browser close');
 
       //console.log("total:", ((Date.now() - start_time) / 1000).toFixed(2), user_email)
-      resolve({ status: true, user_email: user_email, total_time: ((Date.now() - start_time) / 1000).toFixed(2), hostname: global.device_data.hostname })
+      let res_obj = {
+        status: true,
+        user_email: user_email,
+        total_time: ((Date.now() - start_time) / 1000).toFixed(2),
+        hostname: global.device_data.hostname
+      }
+      global.client_socket.emit("end_item", res_obj)
+      resolve(res_obj)
 
 
       async function capturar(fn) {
@@ -62,7 +69,9 @@ function lanzar_curso(user) {
       }
     } catch (error) {
       console.log(error)
-      resolve({ status: false, user_email: user_email, total_time: error.toString(), hostname: global.device_data.hostname })
+      let res_obj = { status: false, user_email: user_email, total_time: error.toString(), hostname: global.device_data.hostname }
+      global.client_socket.emit("end_item", res_obj)
+      resolve(res_obj)
 
     }
   })
