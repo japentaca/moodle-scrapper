@@ -25,7 +25,9 @@ function lanzar_curso(user, directory) {
           '--disable-features=VizDisplayCompositor',
           '--user-data-dir=' + directory]
       });
-      const page = await browser.newPage();
+      const page = await browser.newPage({
+        timeout: 0
+      });
       page.setDefaultNavigationTimeout(0);
       //loguear('newPage');
 
