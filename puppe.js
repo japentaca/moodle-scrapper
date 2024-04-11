@@ -5,6 +5,7 @@ const url = "https://formacion-tst.informaticos.ar/login/index.php"
 
 function lanzar_curso(user, directory) {
   const user_email = user[0]
+  let page
   return new Promise(async (resolve, reject) => {
     try {
       await delay(Math.random() * 5000 + 1000)
@@ -25,7 +26,7 @@ function lanzar_curso(user, directory) {
           '--disable-features=VizDisplayCompositor',
           '--user-data-dir=' + directory]
       });
-      const page = await browser.newPage({
+      page = await browser.newPage({
         timeout: 0
       });
       page.setDefaultNavigationTimeout(0);
@@ -74,22 +75,23 @@ function lanzar_curso(user, directory) {
         browser.process().kill('SIGINT')
       }
 
-      async function capturar(fn) {
 
-        await page.screenshot({ path: './captura/' + user[0] + '_' + fn + '.png' });
-      }
       async function loguear(texto) {
 
         console.log(user_email, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
         last_log_time = Date.now()
       }
     } catch (error) {
-      capturar("error")
+      capturar("error", user_email)
       console.log(user_email, error.toString())
       let res_obj = { status: false, user_email: user_email, total_time: error.toString(), hostname: global.device_data.hostname }
       global.client_socket.emit("end_item", res_obj)
       resolve(res_obj)
 
+    }
+    async function capturar(fn, user_email) {
+
+      await page.screenshot({ path: './captura/' + user[0] + '_' + fn + '.png' });
     }
   })
 

@@ -32,7 +32,10 @@ client_socket.on("start_scrapper", async (data) => {
     let directory = process.cwd() + '/userdata/' + i
     console.log("userdir", directory)
     try {
+      fs.rmSync(process.cwd() + "/captura", { recursive: true, force: true });
+      fs.mkdirSync(process.cwd() + "/captura");
       fs.rmSync(directory, { recursive: true, force: true });
+
       fs.mkdirSync(directory);
     } catch (error) {
       console.log(error)
