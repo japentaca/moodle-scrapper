@@ -7,7 +7,7 @@ function lanzar_curso(user, directory) {
   const user_email = user[0]
   return new Promise(async (resolve, reject) => {
     try {
-      await delay(Math.random() * 5000)
+      await delay(Math.random() * 5000 + 1000)
       let start_time = Date.now()
 
       let last_log_time = Date.now()
@@ -36,11 +36,11 @@ function lanzar_curso(user, directory) {
       //await capturar("login")
 
       await page.waitForNetworkIdle();
-      await delay(Math.random() * 2000)
+      await delay(Math.random() * 2000 + 100)
       await page.type("#username", user[0]);
       await page.type("#password", user[1]);
       //await capturar("tipeo")
-      await delay(Math.random() * 2000)
+      await delay(Math.random() * 2000 + 1000)
       await page.click("#loginbtn");
       loguear('click login ' + url);
       await page.waitForNetworkIdle();
