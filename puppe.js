@@ -84,7 +84,7 @@ function lanzar_curso(user, directory) {
         last_log_time = Date.now()
       }
     } catch (error) {
-      console.log(user_email, error)
+      console.log(user_email, error.toString())
       let res_obj = { status: false, user_email: user_email, total_time: error.toString(), hostname: global.device_data.hostname }
       global.client_socket.emit("end_item", res_obj)
       resolve(res_obj)
