@@ -37,11 +37,11 @@ function lanzar_curso(user, directory) {
       await page.goto(url, { waitUntil: 'domcontentloaded' });
       loguear('entré a ' + url);
       //await page.waitForNetworkIdle();
-      await page.setViewport({ width: 1080, height: 1024 });
+      //await page.setViewport({ width: 1080, height: 1024 });
       //await capturar("login")
 
       await page.waitForNetworkIdle();
-      await delay(Math.random() * 2000 + 100)
+      await delay(Math.random() * 2000 + 1000)
       await page.type("#username", user[0]);
       await page.type("#password", user[1]);
       //await capturar("tipeo")
