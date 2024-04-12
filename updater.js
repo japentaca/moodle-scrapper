@@ -19,6 +19,7 @@ client_socket.on("UPDATE_APP", (data) => {
     return
   }
 
+  log_to_file("lanzo git pull")
   const child_git = execFile('git ', ['pull'], (error, stdout, stderr) => {
     log_to_file("stderr lanzar git", stderr);
     if (error) {
