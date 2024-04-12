@@ -13,8 +13,9 @@ try {
 } catch (error) { }
 setTimeout(() => {
   console.log("lanzo UPDATER")
-  let updaterprocess = spawn('node', ['./updater.js'], { detached: true });
+  let updaterprocess = spawn('node', ['./updater.js'], { detached: true, stdio: 'ignore' });
   updaterprocess.unref()
+  /* 
   updaterprocess.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
   });
@@ -26,7 +27,7 @@ setTimeout(() => {
   updaterprocess.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
   });
-
+ */
   //res.stdout.pipe(process.stdout);
   console.log("res UPDATER", updaterprocess.pid)
 }, 1000)

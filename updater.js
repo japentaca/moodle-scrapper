@@ -14,13 +14,15 @@ log_to_file("UPDATER START")
 log_to_file("pid", pid)
 fs.writeFileSync("pid.txt", pid.toString())
 client_socket.on("UPDATE_APP", (data) => {
+
+  log_to_file("UPDATE_APP", data)
   if (os.hostname() == 'DESKTOP-S4RPOTO') {
-    log_to_file("en casa noooo")
+    log_to_file("updater no apta para el hogar")
     return
   }
 
   log_to_file("lanzo git pull")
-  const child_git = execFile('git ', ['pull'], (error, stdout, stderr) => {
+  const child_git = execFile('git', ['pull'], (error, stdout, stderr) => {
     log_to_file("stderr lanzar git", stderr);
     if (error) {
       log_to_file("error lanzando git", error)
