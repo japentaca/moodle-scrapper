@@ -96,6 +96,7 @@ function lanzar_curso(user, directory, url) {
         last_log = texto
       }
     } catch (error) {
+      browser.process().kill('SIGINT')
       capturar("error", user_email, "last_log", last_log)
       console.log(user_email, error.toString())
       let res_obj = { status: false, user_email: user_email, total_time: error.toString(), hostname: global.device_data.hostname, last_log: last_log }
