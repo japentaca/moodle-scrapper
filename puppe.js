@@ -44,12 +44,12 @@ function lanzar_curso(user, directory, url) {
       //await capturar("login")
 
       //await page.waitForNetworkIdle();
-      await delay(Math.random() * 2000 + 1000)
+      await delay(Math.random() * 1000)
       await page.type("#username", user[0]);
-      await delay(Math.random() * 2000 + 1000)
+      await delay(Math.random() * 1000)
       await page.type("#password", user[1]);
       //await capturar("tipeo")
-      await delay(Math.random() * 2000 + 1000)
+      await delay(Math.random() * 1000)
       response = await page.click("#loginbtn");
 
 
