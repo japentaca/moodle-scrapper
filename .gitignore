@@ -3,3 +3,4 @@ captura
 data/*.csv
 userdata
 pid.txt
+updater_log.txt
