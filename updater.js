@@ -6,6 +6,11 @@ const child_git = execFile('git ', ['pull'], (error, stdout, stderr) => {
     console.log("error lanzando git", error)
   }
   console.log("output de git pull", stdout);
+
+});
+
+setTimeout(() => {
+  console.log("updater end")
   const child_start = execFile('node', ['./index.js'], (error, stdout, stderr) => {
     console.log("stderr lanzar node index", stderr);
     if (error) {
@@ -15,9 +20,5 @@ const child_git = execFile('git ', ['pull'], (error, stdout, stderr) => {
 
 
   });
-});
-
-setTimeout(() => {
-  console.log("updater end")
   process.exit(0)
-}, 1000)
+}, 3000)
