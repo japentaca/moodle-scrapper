@@ -65,6 +65,11 @@ function lanzar_curso(user, directory, url) {
 
       loguear('post login  ' + url);
       //await capturar("post login")
+      let url_curso = "https://formacion-tst.informaticos.ar/course/view.php?id=53"
+      await page.goto(url_curso, { waitUntil: 'domcontentloaded' });
+      loguear('entré a ' + url_curso);
+      //capturar("curso")
+
       await page.close()
       loguear('page close');
       //await delay(20000)
