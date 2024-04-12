@@ -34,7 +34,8 @@ client_socket.on("UPDATE_APP", (data) => {
       if (error) {
         console.log("error update_app", error)
       }
-      console.log(stdout);
+
+      console.log("cierro proceso", stdout);
       process.exit(0)
     });
 
