@@ -22,9 +22,14 @@ function lanzar_curso(user, directory, url) {
         headless: "shell",
         //headless: false,
         timeout: 0,
-        args: ['--no-sandbox',
+        args: [
+          '--no-crash-upload',
+          '--disable-oopr-debug-crash-dump',
+          '--disable-client-side-phishing-detection',
+          '--no-sandbox',
           '--disable-dev-shm-usage',
           '--disable-software-rasterizer',
+          '--disable-crash-reporter',
           '--disable-gpu',
           '--disable-features=VizDisplayCompositor',
           '--user-data-dir=' + directory]
