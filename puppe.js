@@ -10,7 +10,7 @@ function lanzar_curso(user, directory, url) {
   return new Promise(async (resolve, reject) => {
     try {
       let response = null
-      await delay(Math.random() * 5000 + 1000)
+      //await delay(Math.random() * 5000 + 1000)
       let start_time = Date.now()
 
       let last_log_time = Date.now()
