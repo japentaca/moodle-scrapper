@@ -99,8 +99,14 @@ function lanzar_curso(user, directory, url) {
 
     }
     async function capturar(fn, user_email) {
+      try {
+        await page.screenshot({ path: './captura/' + user[0] + '_' + fn + '.png' });
 
-      await page.screenshot({ path: './captura/' + user[0] + '_' + fn + '.png' });
+      } catch (error) {
+        console.log("no pude hacer la caputura", error.toString())
+
+      }
+
     }
   })
 
