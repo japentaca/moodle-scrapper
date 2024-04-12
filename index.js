@@ -1,5 +1,5 @@
 
-console.log("start")
+console.log("start scrapper")
 import { execFile } from 'node:child_process'
 import { lanzar_curso } from './puppe.js'
 import os, { hostname } from 'os'
