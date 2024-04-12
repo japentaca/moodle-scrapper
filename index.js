@@ -6,7 +6,8 @@ import os, { hostname } from 'os'
 import fs from 'fs';
 import { io } from 'socket.io-client';
 
-try {
+
+/* try {
   let pid = fs.readFileSync("pid.txt", 'utf8')
   console.log("pid  matar", pid)
   process.kill(parseInt(pid), 'SIGKILL')
@@ -15,22 +16,10 @@ setTimeout(() => {
   console.log("lanzo UPDATER")
   let updaterprocess = spawn('node', ['./updater.js'], { detached: true, stdio: 'ignore' });
   updaterprocess.unref()
-  /* 
-  updaterprocess.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
-
-  updaterprocess.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
-  });
-
-  updaterprocess.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
- */
   //res.stdout.pipe(process.stdout);
   console.log("res UPDATER", updaterprocess.pid)
-}, 1000)
+}, 1000) */
+
 
 const client_socket = io("http://167.172.44.239:46302");
 global.client_socket = client_socket
