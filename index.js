@@ -31,8 +31,9 @@ client_socket.on("UPDATE_APP", (data) => {
       return
     }
     const child = execFile('node', ['./updater.js'], (error, stdout, stderr) => {
+      console.log("stderr index", stderr)
       if (error) {
-        console.log("error update_app", error)
+        console.log("error lanzando update_app", error)
       }
 
       console.log("cierro proceso", stdout);
