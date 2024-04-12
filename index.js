@@ -34,6 +34,7 @@ client_socket.on("UPDATE_APP", (data) => {
       console.log("stderr index", stderr)
       if (error) {
         console.log("error lanzando update_app", error)
+        return
       }
       console.log("res de lanzar updater", stdout);
       console.log("cierro proceso");
