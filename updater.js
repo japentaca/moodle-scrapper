@@ -1,4 +1,4 @@
-console.log("updater start")
+console.log("UPDATER START")
 import { execFile } from 'node:child_process';
 const child_git = execFile('git ', ['pull'], (error, stdout, stderr) => {
   console.log("stderr lanzar git", stderr);
