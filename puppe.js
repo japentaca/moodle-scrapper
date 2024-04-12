@@ -6,6 +6,7 @@ import puppeteer from 'puppeteer'
 function lanzar_curso(user, directory, url) {
   const user_email = user[0]
   let page
+  let browser
   let last_log = ""
   return new Promise(async (resolve, reject) => {
     try {
@@ -18,7 +19,7 @@ function lanzar_curso(user, directory, url) {
 
       loguear('lanzar_curso ' + user_email);
 
-      const browser = await puppeteer.launch({
+      browser = await puppeteer.launch({
         headless: "shell",
         //headless: false,
         timeout: 0,
