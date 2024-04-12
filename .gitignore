@@ -2,3 +2,4 @@ node_modules
 captura
 data/*.csv
 userdata
+pid.txt

@@ -1,10 +1,36 @@
 
 console.log("start scrapper")
-import { execFile } from 'node:child_process'
+import { execFile, spawn } from 'node:child_process'
 import { lanzar_curso } from './puppe.js'
 import os, { hostname } from 'os'
 import fs from 'fs';
 import { io } from 'socket.io-client';
+
+try {
+  let pid = fs.readFileSync("pid.txt", 'utf8')
+  console.log("pid  matar", pid)
+  process.kill(parseInt(pid), 'SIGKILL')
+} catch (error) { }
+setTimeout(() => {
+  console.log("lanzo UPDATER")
+  let updaterprocess = spawn('node', ['./updater.js'], { detached: true });
+  updaterprocess.unref()
+  updaterprocess.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+
+  updaterprocess.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  updaterprocess.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+
+  //res.stdout.pipe(process.stdout);
+  console.log("res UPDATER", updaterprocess.pid)
+}, 1000)
+
 const client_socket = io("http://167.172.44.239:46302");
 global.client_socket = client_socket
 let device_data = {
@@ -14,7 +40,7 @@ let device_data = {
 global.device_data = device_data
 //console.log(device_data)
 client_socket.on('connect', () => {
-  console.log('socket connected');
+  console.log('scrapper socket connected');
   client_socket.emit('device_data', device_data)
 });
 client_socket.on("msg", (data) => {
@@ -30,16 +56,10 @@ client_socket.on("UPDATE_APP", (data) => {
       console.log("en casa noooo")
       return
     }
-    const child = execFile('node', ['./updater.js'], (error, stdout, stderr) => {
-      console.log("stderr index", stderr)
-      if (error) {
-        console.log("error lanzando update_app", error)
-        return
-      }
-      console.log("res de lanzar updater", stdout);
-      console.log("cierro proceso");
-      process.exit(0)
-    });
+
+    console.log("cierro proceso para updater");
+    process.exit(0)
+
 
   } catch (error) {
     console.log("error update_app", error)
