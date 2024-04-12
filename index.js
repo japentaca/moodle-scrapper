@@ -1,5 +1,6 @@
 
 console.log("start")
+import { execFile } from 'node:child_process'
 import { lanzar_curso } from './puppe.js'
 import os, { hostname } from 'os'
 import fs from 'fs';
@@ -21,6 +22,25 @@ client_socket.on("msg", (data) => {
 })
 client_socket.on("ping", (data) => {
   client_socket.emit("pong", data)
+})
+client_socket.on("UPDATE_APP", (data) => {
+  try {
+    console.log("UPDATE APP", data)
+    if (os.hostname() == 'DESKTOP-S4RPOTO') {
+      console.log("en casa noooo")
+      return
+    }
+    const child = execFile('node', ['./updater.js'], (error, stdout, stderr) => {
+      if (error) {
+        console.log("error update_app", error)
+      }
+      console.log(stdout);
+      process.exit(0)
+    });
+
+  } catch (error) {
+    console.log("error update_app", error)
+  }
 })
 client_socket.on("start_scrapper", async (data) => {
   console.log("start scrapper")
