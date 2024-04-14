@@ -89,7 +89,7 @@ function lanzar_curso(user, directory, curso_data) {
 
       for (let i = 0; i < curso_data.quiz_pages; i++) {
         await delay(Math.random() * 6000 + 5000)
-        loguear('click next', i);
+        loguear('click next ' + i);
         let boton = await page.waitForSelector('input[name="next"]');
         await boton.click();
         await page.waitForNetworkIdle();
