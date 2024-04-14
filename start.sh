@@ -1,5 +1,4 @@
 #!/bin/bash
-npm remove puppeteer
 npm i
 while true; do
     git pull && node index
