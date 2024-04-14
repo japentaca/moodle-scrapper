@@ -1,7 +1,7 @@
 
 console.log("start scrapper")
 import { execFile, spawn } from 'node:child_process'
-import { lanzar_curso } from './puppe.js'
+import { lanzar_curso } from './selenium.js'
 import os, { hostname } from 'os'
 import fs from 'fs';
 import { io } from 'socket.io-client';
@@ -62,14 +62,15 @@ client_socket.on("start_scrapper", async (data) => {
   let prom_arr = []
   for (let i = 0; i < users.length; i++) {
     let user = users[i].split(',')
-    console.log("-----Elemento ", i, "--------", user[0])
+    console.log("-----Elemento ", i, "--------", user)
     let directory = process.cwd() + '/userdata/' + i
-    console.log("userdir", directory)
     try {
       fs.rmSync(process.cwd() + "/captura", { recursive: true, force: true });
       fs.mkdirSync(process.cwd() + "/captura");
-      fs.rmSync(directory, { recursive: true, force: true });
 
+
+      console.log("userdir", directory)
+      fs.rmSync(directory, { recursive: true, force: true });
       fs.mkdirSync(directory);
     } catch (error) {
       console.log(error)

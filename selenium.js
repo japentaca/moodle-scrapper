@@ -1,4 +1,7 @@
-import puppeteer from 'puppeteer'
+
+import { Builder, Browser, By, Key, until } from 'selenium-webdriver'
+//import chrome from 'selenium-webdriver/chrome'
+
 
 //const url = "https://formacion-tst.informaticos.ar/login/index.php"
 
@@ -18,12 +21,9 @@ function lanzar_curso(user, directory, url) {
 
 
       loguear('lanzar_curso ' + user_email);
-
-      browser = await puppeteer.launch({
-        //headless: "shell",
-        headless: false,
-        timeout: 0,
-        args: [
+      let browser = await new Builder()
+        .forBrowser(Browser.CHROME)
+        .setChromeOptions([
           '--no-crash-upload',
           '--disable-oopr-debug-crash-dump',
           '--disable-client-side-phishing-detection',
@@ -33,11 +33,8 @@ function lanzar_curso(user, directory, url) {
           '--disable-crash-reporter',
           '--disable-gpu',
           '--disable-features=VizDisplayCompositor',
-          '--user-data-dir=' + directory]
-      });
-      page = await browser.newPage({
-        timeout: 0
-      });
+          '--user-data-dir=' + directory])
+        .build()
       page.setDefaultNavigationTimeout(0);
       //loguear('newPage');
 
