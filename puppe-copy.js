@@ -1,16 +1,16 @@
-
-import { Builder, Browser, By, Key, until } from 'selenium-webdriver'
-//import chrome from 'selenium-webdriver/chrome'
-
+import puppeteer from 'puppeteer'
 
 //const url = "https://formacion-tst.informaticos.ar/login/index.php"
 
 
 function lanzar_curso(user, directory, url) {
   const user_email = user[0]
+  const user_id = user[2]
+
   let page
   let browser
   let last_log = ""
+  let destinos = {}
   return new Promise(async (resolve, reject) => {
     try {
       let response = null
@@ -21,9 +21,12 @@ function lanzar_curso(user, directory, url) {
 
 
       loguear('lanzar_curso ' + user_email);
-      let browser = await new Builder()
-        .forBrowser(Browser.CHROME)
-        .setChromeOptions([
+
+      browser = await puppeteer.launch({
+        //headless: "shell",
+        headless: false,
+        timeout: 0,
+        args: [
           '--no-crash-upload',
           '--disable-oopr-debug-crash-dump',
           '--disable-client-side-phishing-detection',
@@ -33,8 +36,11 @@ function lanzar_curso(user, directory, url) {
           '--disable-crash-reporter',
           '--disable-gpu',
           '--disable-features=VizDisplayCompositor',
-          '--user-data-dir=' + directory])
-        .build()
+          '--user-data-dir=' + directory]
+      });
+      page = await browser.newPage({
+        timeout: 0
+      });
       page.setDefaultNavigationTimeout(0);
       //loguear('newPage');
 
@@ -66,7 +72,7 @@ function lanzar_curso(user, directory, url) {
       await page.goto(url_curso, { waitUntil: 'domcontentloaded' });
       loguear('entré a ' + url_curso);
       //capturar("curso")
-
+      await page.waitForNetworkIdle();
       url_curso = "https://formacion-tst.informaticos.ar/mod/quiz/view.php?id=60"
       await page.goto(url_curso, { waitUntil: 'domcontentloaded' });
       loguear('entré a ' + url_curso);
@@ -78,6 +84,7 @@ function lanzar_curso(user, directory, url) {
       await element.click();
 
       await page.waitForNetworkIdle();
+
       loguear('entré cuestionario');
       let attempt_id = await msg_to_server("get_quiz_attempt_id", user[2])
       console.log("attempt_id", attempt_id)
@@ -87,35 +94,29 @@ function lanzar_curso(user, directory, url) {
         await browser.close();
         return
       }
+      destinos = {}
+
+      for (let i = 1; i < 10; i++) {
+        let j = 0
+        let str = "q" + attempt_id + ":" + i + "_answer" + j.toString()
+        console.log("STR", str)
+        destinos[str] = 1
+      }
+      //console.log("destinos", destinos)
 
       loguear("pido todos lo inputs")
-      let inputs = await page.waitForSelector('input[type="radio"]')
-      console.log("los inputs", inputs)
-      let tt = await page.evaluate(elem => {
-        console.log("elem", elem)
-        return elem
+      const radios = await page.evaluate(() => Array.from(document.querySelectorAll('input[type="radio"]'), element => {
+        return element
       })
-      console.log("tt", tt)
+      );
 
+      //console.log("radios", radios)
+      for (let i = 0; i < radios.length; i++) {
+        let radio = radios[i]
+        let id = radio.getAttribute("id")
+        console.log("elem", id)
 
-      /*  for (let i = 0; i < inputs.length; i++) {
-         let input = inputs[i]
-         console.log(i, input)
-         //await input.click()
-       } */
-
-      /*  
-       for (let i = 1; i < 10; i++) {
-         let j = 0
-         //let str = "#q" + attempt_id + ":" + i + "_answer" + j
-         let str = "#" + i + "_answer" + j
-         console.log("pincho en selector", str)
-         //element = await page.waitForSelector(str)
-         await page.click(str)
-         loguear('hice click en  ' + str)
-         await delay(1000)
-       } */
-
+      }
       await delay(20000)
       await page.close()
       loguear('page close');
@@ -128,6 +129,7 @@ function lanzar_curso(user, directory, url) {
       let res_obj = {
         status: true,
         user_email: user_email,
+        user_id: user_id,
         total_time: ((Date.now() - start_time) / 1000).toFixed(2),
         hostname: global.device_data.hostname,
         last_log: last_log
@@ -142,15 +144,16 @@ function lanzar_curso(user, directory, url) {
 
       async function loguear(texto) {
 
-        console.log(user_email, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
+        console.log(user_id, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
         last_log_time = Date.now()
         last_log = texto
       }
     } catch (error) {
+
       await kill_browser()
       capturar("error", user_email, "last_log", last_log)
-      console.log(user_email, error.toString())
-      let res_obj = { status: false, user_email: user_email, total_time: error.toString(), hostname: global.device_data.hostname, last_log: last_log }
+      console.log(user_email, error)
+      let res_obj = { status: false, user_email: user_email, user_id: user_id, total_time: error.toString(), hostname: global.device_data.hostname, last_log: last_log }
       global.client_socket.emit("end_item", res_obj)
       resolve(res_obj)
 
@@ -166,7 +169,7 @@ function lanzar_curso(user, directory, url) {
         await page.screenshot({ path: './captura/' + user[0] + '_' + fn + '.png' });
 
       } catch (error) {
-        console.log("no pude hacer la captura", error.toString())
+        //console.log("no pude hacer la captura", error.toString())
 
       }
 

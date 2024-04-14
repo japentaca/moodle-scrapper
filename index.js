@@ -1,7 +1,7 @@
 
 console.log("start scrapper")
 import { execFile, spawn } from 'node:child_process'
-import { lanzar_curso } from './selenium.js'
+import { lanzar_curso } from './puppe.js'
 import os, { hostname } from 'os'
 import fs from 'fs';
 import { io } from 'socket.io-client';
@@ -76,7 +76,7 @@ client_socket.on("start_scrapper", async (data) => {
       console.log(error)
     }
 
-    prom_arr.push(lanzar_curso(user, directory, data.url))
+    prom_arr.push(lanzar_curso(user, directory, data.curso_data))
 
     //lanzar_curso(user)
   }
