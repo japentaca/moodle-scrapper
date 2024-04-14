@@ -5,7 +5,7 @@ import chrome from 'selenium-webdriver/chrome.js'
 
 
 let chrome_options = new chrome.Options()
-chrome_options.addArguments()
+chrome_options.addArguments("--headless=new")
 setTimeout(async () => {
   let driver = await new Builder()
     .forBrowser(Browser.CHROME)
