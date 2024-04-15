@@ -97,7 +97,7 @@ function lanzar_curso(user, directory, curso_data) {
       loguear('page close');
       //await delay(20000)
       await browser.close();
-      loguear('browser close');
+      loguear('FINAL');
 
 
       //console.log("total:", ((Date.now() - start_time) / 1000).toFixed(2), user_email)
