@@ -1,6 +1,7 @@
 #!/bin/bash
-npm i
 while true; do
-    git pull && node index
+     git pull 
+     npm i
+     node index.js
     sleep 2  # Adjust sleep time as needed
 done
