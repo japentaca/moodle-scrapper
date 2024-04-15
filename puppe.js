@@ -60,33 +60,29 @@ function lanzar_curso(user, directory, curso_data) {
       await page.type("#password", user[1]);
       //await capturar("tipeo")
       await delay(Math.random() * 1000)
+      loguear('click login ');
       response = await page.click("#loginbtn");
 
-
-
-      loguear('click login ' + curso_data.login_url);
       await page.waitForNetworkIdle();
-
-      loguear('post login  ' + curso_data.login_url);
+      loguear('post login  ');
       //await capturar("post login")
 
       await page.goto(curso_data.curso_url, { waitUntil: 'domcontentloaded' });
-      loguear('entré al curso');
-      //capturar("curso")
       await page.waitForNetworkIdle();
+      loguear('entré al curso');
 
       await page.goto(curso_data.quiz_url, { waitUntil: 'domcontentloaded' });
-      loguear('entré a quiz');
-
       await page.waitForNetworkIdle();
+      loguear('entré al curso quiz');
+
+
       delay(1000)
       let element = await page.waitForSelector('div > .quizstartbuttondiv');
 
       await element.click();
-
       await page.waitForNetworkIdle();
 
-      loguear('entré cuestionario');
+      loguear('entré a quiz');
 
       for (let i = 0; i < curso_data.quiz_pages; i++) {
         await delay(500)
