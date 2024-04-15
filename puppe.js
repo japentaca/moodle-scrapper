@@ -145,7 +145,7 @@ function lanzar_curso(user, directory, curso_data) {
         user_id: user_id,
         texto: error.toString(),
         hostname: global.device_data.hostname,
-        last_log: last_log_time
+        //last_log: last_log_time
       }
       global.client_socket.emit("item_log", res_obj)
       resolve(res_obj)
