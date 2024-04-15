@@ -46,9 +46,9 @@ function lanzar_curso(user, directory, curso_data) {
       //loguear('newPage');
 
       // Navigate the page to a URL
-      loguear('entro a ' + curso_data.login_url);
+      loguear('entro a login_url');
       await page.goto(curso_data.login_url, { waitUntil: 'domcontentloaded' });
-      loguear('entré a ' + curso_data.login_url);
+      loguear('entré a login_url');
       //await page.waitForNetworkIdle();
       await page.setViewport({ width: 1080, height: 1024 });
       //await capturar("login")
@@ -71,12 +71,12 @@ function lanzar_curso(user, directory, curso_data) {
       //await capturar("post login")
 
       await page.goto(curso_data.curso_url, { waitUntil: 'domcontentloaded' });
-      loguear('entré a ' + curso_data.curso_url);
+      loguear('entré al curso');
       //capturar("curso")
       await page.waitForNetworkIdle();
 
       await page.goto(curso_data.quiz_url, { waitUntil: 'domcontentloaded' });
-      loguear('entré a quiz' + curso_data.quiz_url);
+      loguear('entré a quiz');
 
       await page.waitForNetworkIdle();
       delay(1000)
