@@ -12,12 +12,13 @@ function lanzar_curso(user, directory, curso_data) {
   let last_log = ""
 
   return new Promise(async (resolve, reject) => {
+    let start_time = Date.now()
+
+    let last_log_time = Date.now()
+
     try {
       let response = null
       //await delay(Math.random() * 5000 + 1000)
-      let start_time = Date.now()
-
-      let last_log_time = Date.now()
 
 
       loguear('lanzar_curso ' + user_email);
@@ -78,7 +79,7 @@ function lanzar_curso(user, directory, curso_data) {
       loguear('entré a quiz' + curso_data.quiz_url);
 
       await page.waitForNetworkIdle();
-      delay(2000)
+      delay(1000)
       let element = await page.waitForSelector('div > .quizstartbuttondiv');
 
       await element.click();
@@ -88,7 +89,7 @@ function lanzar_curso(user, directory, curso_data) {
       loguear('entré cuestionario');
 
       for (let i = 0; i < curso_data.quiz_pages; i++) {
-        await delay(Math.random() * 6000 + 5000)
+        await delay(500)
         loguear('click next ' + i);
         let boton = await page.waitForSelector('input[name="next"]');
         await boton.click();
@@ -112,28 +113,45 @@ function lanzar_curso(user, directory, curso_data) {
         hostname: global.device_data.hostname,
         last_log: last_log
       }
-      global.client_socket.emit("end_item", res_obj)
+      //global.client_socket.emit("end_item", res_obj)
 
       resolve(res_obj)
       await delay(2000)
-      loguear("killing browser")
+      //loguear("killing browser")
       await kill_browser()
 
 
-      async function loguear(texto) {
-        global.client_socket.emit("item_log", { ts: ((Date.now() - last_log_time) / 1000).toFixed(2), user_email: user_email, texto: texto })
+      async function loguear(texto, status = true) {
+        global.client_socket.emit("item_log",
+          {
+            status: status,
+            start_time: start_time,
+            user_id: user_id,
+            total_time: ((Date.now() - start_time) / 1000).toFixed(2),
+            hostname: global.device_data.hostname,
+            ts: ((Date.now() - last_log_time) / 1000).toFixed(2),
+            user_email: user_email,
+            texto: texto
+          })
 
         console.log(user_id, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
         last_log_time = Date.now()
-        last_log = texto
+
       }
     } catch (error) {
 
       await kill_browser()
-      capturar("error", user_email, "last_log", last_log)
+      //capturar("error", user_email, "last_log", last_log)
       console.log(user_email, error.toString())
-      let res_obj = { status: false, user_email: user_email, user_id: user_id, total_time: error.toString(), hostname: global.device_data.hostname, last_log: last_log }
-      global.client_socket.emit("end_item", res_obj)
+      let res_obj = {
+        status: false,
+        user_email: user_email,
+        user_id: user_id,
+        texto: error.toString(),
+        hostname: global.device_data.hostname,
+        last_log: last_log_time
+      }
+      global.client_socket.emit("item_log", res_obj)
       resolve(res_obj)
 
     }

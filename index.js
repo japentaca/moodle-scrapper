@@ -83,9 +83,6 @@ client_socket.on("start_scrapper", async (data) => {
 
   let res = await Promise.all(prom_arr)
   //await delay(1000)
-  client_socket.emit("end_scrapper",
-    res
-  )
 
   console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
 
