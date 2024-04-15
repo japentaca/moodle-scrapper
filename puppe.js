@@ -64,7 +64,7 @@ function lanzar_curso(user, directory, curso_data) {
       response = await page.click("#loginbtn");
 
       await page.waitForNetworkIdle();
-      loguear('post login  ');
+      loguear('post login');
       //await capturar("post login")
 
       await page.goto(curso_data.curso_url, { waitUntil: 'domcontentloaded' });
@@ -73,7 +73,7 @@ function lanzar_curso(user, directory, curso_data) {
 
       await page.goto(curso_data.quiz_url, { waitUntil: 'domcontentloaded' });
       await page.waitForNetworkIdle();
-      loguear('entré al curso quiz');
+      loguear('entré al quiz');
 
 
       delay(1000)
