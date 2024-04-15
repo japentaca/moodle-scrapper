@@ -125,11 +125,11 @@ function lanzar_curso(user, directory, curso_data) {
         global.client_socket.emit("item_log",
           {
             status: status,
-            start_time: start_time,
+            start_time: new Date(start_time).toLocaleTimeString(),
             user_id: user_id,
             total_time: ((Date.now() - start_time) / 1000).toFixed(2),
             hostname: global.device_data.hostname,
-            ts: ((Date.now() - last_log_time) / 1000).toFixed(2),
+            //duration: ((Date.now() - last_log_time) / 1000).toFixed(2),
             user_email: user_email,
             texto: texto
           })
