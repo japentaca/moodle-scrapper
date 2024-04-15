@@ -107,7 +107,7 @@ function lanzar_curso(user, directory, curso_data) {
       //console.log("total:", ((Date.now() - start_time) / 1000).toFixed(2), user_email)
       let res_obj = {
         status: true,
-        user_email: user_email,
+        //user_email: user_email,
         user_id: user_id,
         total_time: ((Date.now() - start_time) / 1000).toFixed(2),
         hostname: global.device_data.hostname,
@@ -130,7 +130,7 @@ function lanzar_curso(user, directory, curso_data) {
             total_time: ((Date.now() - start_time) / 1000).toFixed(2),
             hostname: global.device_data.hostname,
             //duration: ((Date.now() - last_log_time) / 1000).toFixed(2),
-            user_email: user_email,
+            //user_email: user_email,
             texto: texto
           })
 
@@ -145,7 +145,7 @@ function lanzar_curso(user, directory, curso_data) {
       console.log(user_email, error.toString())
       let res_obj = {
         status: false,
-        user_email: user_email,
+        //user_email: user_email,
         user_id: user_id,
         texto: error.toString(),
         hostname: global.device_data.hostname,
