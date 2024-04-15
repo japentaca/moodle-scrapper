@@ -21,7 +21,7 @@ function lanzar_curso(user, directory, curso_data) {
       //await delay(Math.random() * 5000 + 1000)
 
 
-      loguear('lanzar_curso ' + user_email);
+
 
       browser = await puppeteer.launch({
         headless: "shell",
