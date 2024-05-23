@@ -67,6 +67,8 @@ function lanzar_curso(user, directory, curso_data) {
       loguear('post login');
       //await capturar("post login")
 
+      loguear('redirecciono al curso');
+      await delay(2000)
       await page.goto(curso_data.curso_url, { waitUntil: 'domcontentloaded' });
       await page.waitForNetworkIdle();
       loguear('entré al curso');
