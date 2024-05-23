@@ -99,7 +99,8 @@ function lanzar_curso(user, directory, curso_data) {
       //await delay(2000)
       const el = await page.waitForSelector("text/Continuar");
       el.click()
-      //await delay(2000)
+      await page.waitForNetworkIdle();
+      await delay(2000)
       await page.close()
       loguear('page close');
       //await delay(20000)
