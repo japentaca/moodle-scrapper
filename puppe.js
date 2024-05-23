@@ -25,7 +25,7 @@ function lanzar_curso(user, directory, curso_data) {
 
       browser = await puppeteer.launch({
         ///headless: "shell",
-        headless: false,
+        headless: true,
         timeout: 0,
         args: [
           '--no-crash-upload',
