@@ -91,7 +91,8 @@ function lanzar_curso(user, directory, curso_data) {
         await boton.click();
         await page.waitForNetworkIdle();
       }
-
+      loguear('logout');
+      await page.goto(curso_data.logout_url, { waitUntil: 'domcontentloaded' });
       await delay(2000)
       await page.close()
       loguear('page close');
