@@ -24,8 +24,8 @@ function lanzar_curso(user, directory, curso_data) {
 
 
       browser = await puppeteer.launch({
-        headless: "shell",
-        //headless: false,
+        ///headless: "shell",
+        headless: false,
         timeout: 0,
         args: [
           '--no-crash-upload',
@@ -136,8 +136,9 @@ function lanzar_curso(user, directory, curso_data) {
       }
     } catch (error) {
 
+      await capturar("error", user_email, "last_log", last_log)
       await kill_browser()
-      //capturar("error", user_email, "last_log", last_log)
+
       console.log(user_email, error.toString())
       let res_obj = {
         status: false,
