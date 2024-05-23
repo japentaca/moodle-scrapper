@@ -130,7 +130,7 @@ function lanzar_curso(user, directory, curso_data) {
             texto: texto
           })
 
-        console.log(user_id, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
+        console.log(user_email, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
         last_log_time = Date.now()
 
       }
