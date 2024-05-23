@@ -25,7 +25,7 @@ function lanzar_curso(user, directory, curso_data) {
 
       browser = await puppeteer.launch({
         ///headless: "shell",
-        headless: false,
+        headless: true,
         timeout: 0,
         args: [
           '--no-crash-upload',
@@ -84,8 +84,8 @@ function lanzar_curso(user, directory, curso_data) {
 
       loguear('entré a quiz');
 
-      //for (let i = 0; i < curso_data.quiz_pages; i++) {
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < curso_data.quiz_pages; i++) {
+        //for (let i = 0; i < 2; i++) {
         await delay(500)
         loguear('click next ' + i);
         let boton = await page.waitForSelector('input[name="next"]');
@@ -97,7 +97,7 @@ function lanzar_curso(user, directory, curso_data) {
       await delay(2000)
       const el = await page.waitForSelector("text/Continuar");
       el.click()
-      await delay(200000)
+      await delay(2000)
       await page.close()
       loguear('page close');
       //await delay(20000)
