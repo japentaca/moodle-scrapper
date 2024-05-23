@@ -84,7 +84,8 @@ function lanzar_curso(user, directory, curso_data) {
 
       loguear('entré a quiz');
 
-      for (let i = 0; i < curso_data.quiz_pages; i++) {
+      //for (let i = 0; i < curso_data.quiz_pages; i++) {
+      for (let i = 0; i < 2; i++) {
         await delay(500)
         loguear('click next ' + i);
         let boton = await page.waitForSelector('input[name="next"]');
@@ -93,6 +94,9 @@ function lanzar_curso(user, directory, curso_data) {
       }
       loguear('logout');
       await page.goto(curso_data.logout_url, { waitUntil: 'domcontentloaded' });
+      await delay(2000)
+      const el = await page.waitForSelector("text/Continuar");
+      el.click()
       await delay(200000)
       await page.close()
       loguear('page close');
