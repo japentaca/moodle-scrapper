@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^22.6.4",
+    "puppeteer": "^22.9.0",
     "socket.io-client": "^4.7.5"
   }
 }
