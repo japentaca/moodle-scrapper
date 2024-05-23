@@ -88,7 +88,7 @@ function lanzar_curso(user, directory, curso_data) {
 
       for (let i = 0; i < curso_data.quiz_pages; i++) {
         //for (let i = 0; i < 2; i++) {
-        await delay(500)
+        await delay(1000)
         loguear('click next ' + i);
         let boton = await page.waitForSelector('input[name="next"]');
         await boton.click();
