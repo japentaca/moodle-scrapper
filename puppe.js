@@ -135,8 +135,9 @@ function lanzar_curso(user, directory, curso_data) {
             hostname: global.device_data.hostname,
             //duration: ((Date.now() - last_log_time) / 1000).toFixed(2),
             //user_email: user_email,
-            last_log: last_log,
-            texto: texto
+            texto: texto,
+            last_log: last_log
+
           })
 
         console.log(user_email, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
@@ -153,10 +154,12 @@ function lanzar_curso(user, directory, curso_data) {
       let res_obj = {
         status: false,
         //user_email: user_email,
+        start_time: new Date(start_time).toLocaleTimeString(),
         user_id: user_id,
-        texto: error.toString(),
+        total_time: ((Date.now() - start_time) / 1000).toFixed(2),
         hostname: global.device_data.hostname,
-        //last_log: last_log_time
+        texto: error.toString(),
+        last_log: last_log
       }
       global.client_socket.emit("item_log", res_obj)
       resolve(res_obj)
