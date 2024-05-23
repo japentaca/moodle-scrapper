@@ -136,7 +136,7 @@ function lanzar_curso(user, directory, curso_data) {
       }
     } catch (error) {
 
-      await capturar("error", user_email, "last_log", last_log)
+      //await capturar("error", user_email, "last_log", last_log)
       await kill_browser()
 
       console.log(user_email, error.toString())
