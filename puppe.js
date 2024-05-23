@@ -61,6 +61,7 @@ function lanzar_curso(user, directory, curso_data) {
       //await capturar("tipeo")
       await delay(Math.random() * 1000)
       loguear('click login ');
+      await delay(2000)
       response = await page.click("#loginbtn");
 
       await page.waitForNetworkIdle();
@@ -77,7 +78,7 @@ function lanzar_curso(user, directory, curso_data) {
       await page.waitForNetworkIdle();
       loguear('entré al quiz');
 
-
+      capturar("quiz", user_email)
       delay(1000)
       let element = await page.waitForSelector('div > .quizstartbuttondiv');
 
