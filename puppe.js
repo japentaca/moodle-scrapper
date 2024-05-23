@@ -94,10 +94,10 @@ function lanzar_curso(user, directory, curso_data) {
       }
       loguear('logout');
       await page.goto(curso_data.logout_url, { waitUntil: 'domcontentloaded' });
-      await delay(2000)
+      //await delay(2000)
       const el = await page.waitForSelector("text/Continuar");
       el.click()
-      await delay(2000)
+      //await delay(2000)
       await page.close()
       loguear('page close');
       //await delay(20000)
