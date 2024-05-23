@@ -25,7 +25,7 @@ function lanzar_curso(user, directory, curso_data) {
 
       browser = await puppeteer.launch({
         ///headless: "shell",
-        headless: true,
+        headless: false,
         timeout: 0,
         args: [
           '--no-crash-upload',
@@ -93,7 +93,7 @@ function lanzar_curso(user, directory, curso_data) {
       }
       loguear('logout');
       await page.goto(curso_data.logout_url, { waitUntil: 'domcontentloaded' });
-      await delay(2000)
+      await delay(200000)
       await page.close()
       loguear('page close');
       //await delay(20000)
