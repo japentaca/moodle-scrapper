@@ -160,7 +160,7 @@ function lanzar_curso(user, directory, curso_data) {
     }
     async function capturar(fn, user_email) {
       try {
-        await page.screenshot({ path: './captura/' + user[0] + '_' + fn + '.png' });
+        await page.screenshot({ path: './captura/' + user_email + '_' + fn + '.png' });
 
       } catch (error) {
         //console.log("no pude hacer la captura", error.toString())
