@@ -135,11 +135,13 @@ function lanzar_curso(user, directory, curso_data) {
             hostname: global.device_data.hostname,
             //duration: ((Date.now() - last_log_time) / 1000).toFixed(2),
             //user_email: user_email,
+            last_log: last_log,
             texto: texto
           })
 
         console.log(user_email, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
         last_log_time = Date.now()
+        last_log = texto
 
       }
     } catch (error) {
