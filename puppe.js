@@ -187,7 +187,7 @@ function lanzar_curso(user, directory, curso_data) {
       }
       global.client_socket.emit("item_log", res_obj)
 
-      await delay(240000)
+      await delay(20000)
       await kill_browser()
 
 
