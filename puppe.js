@@ -172,8 +172,6 @@ function lanzar_curso(user, directory, curso_data) {
       console.log(error)
 
       await capturar("error", user_email, "last_log", last_log)
-      await delay(240000)
-      await kill_browser()
 
       console.log(user_email, error.toString())
       let res_obj = {
@@ -188,6 +186,11 @@ function lanzar_curso(user, directory, curso_data) {
         last_log: last_log
       }
       global.client_socket.emit("item_log", res_obj)
+
+      await delay(240000)
+      await kill_browser()
+
+
       resolve(res_obj)
 
     }
