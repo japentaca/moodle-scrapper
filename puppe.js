@@ -75,13 +75,13 @@ function lanzar_curso(user, directory, curso_data) {
       loguear('redirecciono al curso');
 
       await page.goto(curso_data.curso_url, { waitUntil: 'domcontentloaded' });
-      //await page.waitForNetworkIdle();
+      await page.waitForNetworkIdle();
 
       await delay(2000)
       capturar("curso", user_email)
 
       await page.goto(curso_data.quiz_url, { waitUntil: 'domcontentloaded' });
-      //await page.waitForNetworkIdle();
+      await page.waitForNetworkIdle();
       loguear('entré al quiz');
       delay(2000)
       capturar("quiz", user_email)
@@ -89,7 +89,7 @@ function lanzar_curso(user, directory, curso_data) {
       let element = await page.waitForSelector('div > .quizstartbuttondiv');
 
       await element.click();
-      //await page.waitForNetworkIdle();
+      await page.waitForNetworkIdle();
 
       loguear('entré a quiz');
 
