@@ -45,7 +45,7 @@ function lanzar_curso(user, directory, curso_data) {
         timeout: 0,
 
       });
-      Page.setCacheEnabled(false)
+      page.setCacheEnabled(false)
       page.setDefaultNavigationTimeout(0);
       //loguear('newPage');
 
