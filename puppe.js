@@ -65,7 +65,7 @@ function lanzar_curso(user, directory, curso_data) {
       loguear('click login ');
       await delay(2000)
       response = await page.click("#loginbtn");
-
+      delay(5000)
       await page.waitForNetworkIdle();
       loguear('post login');
       //await capturar("post login")
@@ -157,8 +157,10 @@ function lanzar_curso(user, directory, curso_data) {
       }
     } catch (error) {
 
+      console.log(error)
+
       await capturar("error", user_email, "last_log", last_log)
-      delay(60000)
+      delay(160000)
       await kill_browser()
 
       console.log(user_email, error.toString())
