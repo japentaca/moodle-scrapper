@@ -158,6 +158,7 @@ function lanzar_curso(user, directory, curso_data) {
     } catch (error) {
 
       await capturar("error", user_email, "last_log", last_log)
+      delay(60000)
       await kill_browser()
 
       console.log(user_email, error.toString())
