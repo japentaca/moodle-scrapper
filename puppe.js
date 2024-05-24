@@ -11,7 +11,7 @@ function lanzar_curso(user, directory, curso_data) {
   let browser
   let last_log = ""
   let headless = true
-  if (os.hostname == "XXXfabo") headless = false
+  if (os.hostname == "1fabo") headless = false
 
   return new Promise(async (resolve, reject) => {
     let start_time = Date.now()
@@ -42,8 +42,10 @@ function lanzar_curso(user, directory, curso_data) {
           '--user-data-dir=' + directory]
       });
       page = await browser.newPage({
-        timeout: 0
+        timeout: 0,
+
       });
+      Page.setCacheEnabled(false)
       page.setDefaultNavigationTimeout(0);
       //loguear('newPage');
 
