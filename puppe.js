@@ -11,7 +11,7 @@ function lanzar_curso(user, directory, curso_data) {
   let browser
   let last_log = ""
   let headless = true
-  if (os.hostname == "fabo") headless = false
+  if (os.hostname == "XXXfabo") headless = false
 
   return new Promise(async (resolve, reject) => {
     let start_time = Date.now()
