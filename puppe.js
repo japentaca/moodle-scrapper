@@ -66,7 +66,9 @@ function lanzar_curso(user, directory, curso_data) {
       await delay(2000)
       response = await page.click("#loginbtn");
       delay(5000)
-      await page.waitForNetworkIdle();
+      await page.waitForNetworkIdle({
+        idleTime: 3000
+      });
       loguear('post login');
       //await capturar("post login")
 
@@ -77,13 +79,17 @@ function lanzar_curso(user, directory, curso_data) {
       loguear('redirecciono al curso');
 
       await page.goto(curso_data.curso_url, { waitUntil: 'domcontentloaded' });
-      await page.waitForNetworkIdle();
+      await page.waitForNetworkIdle({
+        idleTime: 3000
+      });
 
       await delay(2000)
       capturar("curso", user_email)
 
       await page.goto(curso_data.quiz_url, { waitUntil: 'domcontentloaded' });
-      await page.waitForNetworkIdle();
+      await page.waitForNetworkIdle({
+        idleTime: 3000
+      });
       loguear('entré al quiz');
       delay(2000)
       capturar("quiz", user_email)
@@ -91,7 +97,9 @@ function lanzar_curso(user, directory, curso_data) {
       let element = await page.waitForSelector('div > .quizstartbuttondiv');
 
       await element.click();
-      await page.waitForNetworkIdle();
+      await page.waitForNetworkIdle({
+        idleTime: 3000
+      });
 
       loguear('entré a quiz');
 
@@ -101,14 +109,18 @@ function lanzar_curso(user, directory, curso_data) {
         loguear('click next ' + i);
         let boton = await page.waitForSelector('input[name="next"]');
         await boton.click();
-        await page.waitForNetworkIdle();
+        await page.waitForNetworkIdle({
+          idleTime: 3000
+        });
       }
       loguear('logout');
       await page.goto(curso_data.logout_url, { waitUntil: 'domcontentloaded' });
       await delay(2000)
       const el = await page.waitForSelector("text/Continuar");
       el.click()
-      await page.waitForNetworkIdle();
+      await page.waitForNetworkIdle({
+        idleTime: 3000
+      });
       await delay(2000)
       await page.close()
       loguear('page close');
