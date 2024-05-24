@@ -52,7 +52,7 @@ function lanzar_curso(user, directory, curso_data) {
       await page.goto(curso_data.login_url, { waitUntil: 'domcontentloaded' });
       loguear('entré a login_url');
       //await page.waitForNetworkIdle();
-      await page.setViewport({ width: 1080, height: 1024 });
+      await page.setViewport({ width: 400, height: 320 });
       //await capturar("login")
 
       //await page.waitForNetworkIdle();
