@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer'
 
-
+import os from "os"
 
 
 function lanzar_curso(user, directory, curso_data) {
@@ -10,6 +10,8 @@ function lanzar_curso(user, directory, curso_data) {
   let page
   let browser
   let last_log = ""
+  let headless = true
+  if (os.hostname == "fabo") headless = false
 
   return new Promise(async (resolve, reject) => {
     let start_time = Date.now()
