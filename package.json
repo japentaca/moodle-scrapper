@@ -10,8 +10,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "nodemonConfig": {
+    "ignore": [
+      "captura/*"
+    ]
+  },
   "dependencies": {
-    "puppeteer": "^22.9.0",
+    "axios": "^1.7.2",
+    "node-html-parser": "^6.1.13",
     "socket.io-client": "^4.7.5"
   }
 }

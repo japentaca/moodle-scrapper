@@ -1,12 +1,24 @@
+
 console.log("start scrapper")
 import { execFile, spawn } from 'node:child_process'
-import { lanzar_curso } from './axios_scrapper.js'
+import { lanzar_curso } from './puppe.js'
 import os, { hostname } from 'os'
 import fs from 'fs';
 import { io } from 'socket.io-client';
 
 
-
+/* try {
+  let pid = fs.readFileSync("pid.txt", 'utf8')
+  console.log("pid  matar", pid)
+  process.kill(parseInt(pid), 'SIGKILL')
+} catch (error) { }
+setTimeout(() => {
+  console.log("lanzo UPDATER")
+  let updaterprocess = spawn('node', ['./updater.js'], { detached: true, stdio: 'ignore' });
+  updaterprocess.unref()
+  //res.stdout.pipe(process.stdout);
+  console.log("res UPDATER", updaterprocess.pid)
+}, 1000) */
 
 
 const client_socket = io("http://167.172.44.239:46302");
@@ -43,26 +55,28 @@ client_socket.on("UPDATE_APP", (data) => {
     console.log("error update_app", error)
   }
 })
-let procesando = false
 client_socket.on("start_scrapper", async (data) => {
-  if (procesando) {
-    console.log("esta procesando, relax")
-    return
-  }
-
-  procesando = true
-  console.log("msg sstart scrapper")
+  console.log("start scrapper")
   let start_time = Date.now()
   let users = data.users
   let prom_arr = []
-  console.log("cant users", users.length)
   for (let i = 0; i < users.length; i++) {
     let user = users[i].split(',')
-    console.log("-----Elemento ", i, "--------", user[0])
+    console.log("-----Elemento ", i, "--------", user)
+    let directory = process.cwd() + '/userdata/' + i
+    try {
+      fs.rmSync(process.cwd() + "/captura", { recursive: true, force: true });
+      fs.mkdirSync(process.cwd() + "/captura");
 
 
+      console.log("userdir", directory)
+      fs.rmSync(directory, { recursive: true, force: true });
+      fs.mkdirSync(directory);
+    } catch (error) {
+      console.log(error)
+    }
 
-    prom_arr.push(lanzar_curso(user, data.curso_data))
+    prom_arr.push(lanzar_curso(user, directory, data.curso_data))
 
     //lanzar_curso(user)
   }
@@ -71,13 +85,28 @@ client_socket.on("start_scrapper", async (data) => {
   //await delay(1000)
 
   console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
-  procesando = false
+
 })
 //console.log(device_data)
 
 
 
 
+let procesando = false/* 
+setInterval(async () => {
+  if (procesando) return
+  procesando = true
+  for (let i = 0; i < users.length; i++) {
+    let user = users[i].split(',')
+    console.log("-----Elemento ", i, "--------", user[0])
+    await lanzar_curso(user)
+
+
+  }
+  procesando = false
+
+
+}, 1000) */
 
 
 
