@@ -1,5 +1,6 @@
 #!/bin/bash
 while true; do
+     git reset --hard HEAD
      git pull 
      npm i
      node index.js
