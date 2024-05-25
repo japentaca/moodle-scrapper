@@ -223,6 +223,7 @@ function lanzar_curso(user, curso_data) {
           })
           //console.log("redir quiz", response.status)
           //console.log("redir quiz", response.headers)
+          await delay(2000)
           await guardar_html(response.data, "post_redirect_quiz_pregunta" + i)
         }
 
@@ -321,7 +322,7 @@ function lanzar_curso(user, curso_data) {
       }
       global.client_socket.emit("item_log", res_obj)
 
-      await delay(20000)
+      await delay(2000)
 
 
 
