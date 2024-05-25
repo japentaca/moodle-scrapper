@@ -4,3 +4,4 @@ data/*.csv
 userdata
 pid.txt
 updater_log.txt
+package-lock.json
