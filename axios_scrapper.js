@@ -7,32 +7,42 @@ let device_data = {
   platform: os.platform(),
   arch: os.arch(), release: os.release(), totalmem: os.totalmem() / 1024, freemem: os.freemem() / 1024, hostname: os.hostname(), cpus: os.cpus().length
 }
-let user, curso_data
+let parms = null
 try {
-  user = process.argv[2].split(',')
-  curso_data = JSON.parse(process.argv[3])
+  parms = JSON.parse(process.argv[2])
+  //console.log("parms", parms)
 } catch (error) {
   console.log(error)
   process.exit(0)
 }
 
 //console.log("lancar_curso", curso_data)
-const user_email = user[0]
-const user_id = user[2]
+
 let cookies = {}
 
-
+let user_email = null
+let user_id = null
 let last_log = ""
-let headless = true
-setTimeout(async () => {
-  await lanzar_curso(user, curso_data)
-  console.log("cierro")
-  delay(2000)
-  process.exit(0)
 
+setTimeout(async () => {
+
+  for (let i = 0; i < parms.length; i++) {
+
+    let user = parms[i].user.split(',')
+
+    console.log("lanzo curso", user[0])
+
+    await lanzar_curso(user, parms[i].curso_data)
+    console.log("cierro")
+    delay(2000)
+    process.exit(0)
+  }
 }, Math.random() * 1000 + 1000)
 
 async function lanzar_curso(user, curso_data) {
+  let user_email = user[0]
+  let user_id = user[2]
+
   return new Promise(async (resolve, reject) => {
     let start_time = Date.now()
 
