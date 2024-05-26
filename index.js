@@ -76,7 +76,10 @@ client_socket.on("start_scrapper", async (data) => {
       proc.on("message", (msg) => {
         //console.log("msg from fork", msg)
         let temp = JSON.parse(msg)
-        if (temp.data.texto == "FINAL") proc_count--
+        if (temp.data.texto == "FINAL") {
+          console.log("finalizo", proc_count)
+          proc_count--
+        }
         if (proc_count == 0) {
           procesando = false
           console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
@@ -87,10 +90,7 @@ client_socket.on("start_scrapper", async (data) => {
       })
       procs_x_cpu_count = 0
       parms = []
-    } else {
-
     }
-
   }
 })
 
