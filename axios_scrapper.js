@@ -207,7 +207,7 @@ async function lanzar_curso(user, curso_data) {
         })
 
 
-        loguear('click next ' + i);
+        loguear('paso ' + i);
 
         response = await axios({
           data: quiz_post_data,
@@ -312,18 +312,19 @@ async function lanzar_curso(user, curso_data) {
 
       console.log(error.message)
       console.log(user_email, error.toString())
+      let res_obj = {
+        status: false,
+        //user_email: user_email,
+        start_time: new Date(start_time).toLocaleTimeString(),
+        user_id: user_id,
+        user_email: user_email,
+        total_time: ((Date.now() - start_time) / 1000).toFixed(2),
+        hostname: device_data.hostname,
+        texto: error.toString(),
+        last_log: last_log
+      }
       let msg = {
-        type: "item_log", data: {
-          status: false,
-          //user_email: user_email,
-          start_time: new Date(start_time).toLocaleTimeString(),
-          user_id: user_id,
-          user_email: user_email,
-          total_time: ((Date.now() - start_time) / 1000).toFixed(2),
-          hostname: device_data.hostname,
-          texto: error.toString(),
-          last_log: last_log
-        }
+        type: "item_log", data: res_obj
       }
 
       process.send(JSON.stringify(msg))
