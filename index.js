@@ -1,13 +1,10 @@
 console.log("start scrapper")
 import { execFile, spawn } from 'node:child_process'
-import { lanzar_curso } from './axios_scrapper.js'
+
 import os, { hostname } from 'os'
 import fs from 'fs';
 import { io } from 'socket.io-client';
-
-
-
-
+import child_process from 'node:child_process'
 
 const client_socket = io("http://167.172.44.239:46302");
 global.client_socket = client_socket
@@ -56,27 +53,28 @@ client_socket.on("start_scrapper", async (data) => {
   let users = data.users
   let prom_arr = []
   console.log("cant users", users.length)
+
+  let proc_count = 0
   for (let i = 0; i < users.length; i++) {
     let user = users[i].split(',')
     console.log("-----Elemento ", i, "--------", user[0])
+    //prom_arr.push(lanzar_curso(user, data.curso_data))
+    let proc = child_process.fork('./axios_scrapper.js', [user, JSON.stringify(data.curso_data)])
+    proc_count++
+    proc.on("message", (msg) => {
+      //console.log("msg from fork", msg)
+      let temp = JSON.parse(msg)
+      if (temp.data.texto == "FINAL") proc_count--
+      if (proc_count == 0) {
+        procesando = false
+        console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
 
+      }
+      client_socket.emit(temp.type, temp.data)
+    })
 
-
-    prom_arr.push(lanzar_curso(user, data.curso_data))
-
-    //lanzar_curso(user)
   }
-
-  let res = await Promise.all(prom_arr)
-  //await delay(1000)
-
-  console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
-  procesando = false
 })
-//console.log(device_data)
-
-
-
 
 
 

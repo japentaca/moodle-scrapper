@@ -3,19 +3,35 @@ import { parse } from 'node-html-parser';
 import axios from 'axios';
 import fs from 'fs/promises';
 axios.defaults.withCredentials = true;
+let device_data = {
+  platform: os.platform(),
+  arch: os.arch(), release: os.release(), totalmem: os.totalmem() / 1024, freemem: os.freemem() / 1024, hostname: os.hostname(), cpus: os.cpus().length
+}
+let user, curso_data
+try {
+  user = process.argv[2].split(',')
+  curso_data = JSON.parse(process.argv[3])
+} catch (error) {
+  console.log(error)
+  process.exit(0)
+}
+
+//console.log("lancar_curso", curso_data)
+const user_email = user[0]
+const user_id = user[2]
+let cookies = {}
 
 
-function lanzar_curso(user, curso_data) {
-  //console.log("lancar_curso", curso_data)
-  const user_email = user[0]
-  const user_id = user[2]
-  let cookies = {}
+let last_log = ""
+let headless = true
+setTimeout(async () => {
+  await lanzar_curso(user, curso_data)
+  console.log("cierro")
+  process.exit(0)
 
+}, Math.random() * 1000 + 1000)
 
-  let last_log = ""
-  let headless = true
-
-
+async function lanzar_curso(user, curso_data) {
   return new Promise(async (resolve, reject) => {
     let start_time = Date.now()
 
@@ -214,12 +230,7 @@ function lanzar_curso(user, curso_data) {
 
           await guardar_html(response.data, "post_redirect_quiz_pregunta" + i)
         }
-
-
         await delay(1000)
-
-
-
       }
       loguear('logout');
 
@@ -246,42 +257,38 @@ function lanzar_curso(user, curso_data) {
         },
       })
       await guardar_html(response.data, "post_logout2")
-
-
       loguear('FINAL');
-
-
-
       let res_obj = {
         status: true,
         //user_email: user_email,
         user_id: user_id,
         total_time: ((Date.now() - start_time) / 1000).toFixed(2),
-        hostname: global.device_data.hostname,
+        hostname: device_data.hostname,
         last_log: last_log
       }
-      //global.client_socket.emit("end_item", res_obj)
 
       resolve(res_obj)
 
-
-
       async function loguear(texto, status = true) {
-
-        global.client_socket.emit("item_log",
-          {
+        let msg = {
+          type: "item_log",
+          data: {
             status: status,
             start_time: new Date(start_time).toLocaleTimeString(),
             user_id: user_id,
             user_email: user_email,
             total_time: ((Date.now() - start_time) / 1000).toFixed(2),
-            hostname: global.device_data.hostname,
+            hostname: device_data.hostname,
             //duration: ((Date.now() - last_log_time) / 1000).toFixed(2),
             //user_email: user_email,
             texto: texto,
             last_log: last_log
 
-          })
+          }
+
+        }
+
+        process.send(JSON.stringify(msg))
 
         console.log(user_email, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
         last_log_time = Date.now()
@@ -292,18 +299,21 @@ function lanzar_curso(user, curso_data) {
 
       console.log(error.message)
       console.log(user_email, error.toString())
-      let res_obj = {
-        status: false,
-        //user_email: user_email,
-        start_time: new Date(start_time).toLocaleTimeString(),
-        user_id: user_id,
-        user_email: user_email,
-        total_time: ((Date.now() - start_time) / 1000).toFixed(2),
-        hostname: global.device_data.hostname,
-        texto: error.toString(),
-        last_log: last_log
+      let msg = {
+        type: "item_log", data: {
+          status: false,
+          //user_email: user_email,
+          start_time: new Date(start_time).toLocaleTimeString(),
+          user_id: user_id,
+          user_email: user_email,
+          total_time: ((Date.now() - start_time) / 1000).toFixed(2),
+          hostname: device_data.hostname,
+          texto: error.toString(),
+          last_log: last_log
+        }
       }
-      global.client_socket.emit("item_log", res_obj)
+
+      process.send(JSON.stringify(msg))
 
       await delay(2000)
 
@@ -316,26 +326,15 @@ function lanzar_curso(user, curso_data) {
   })
 
 }
+
+
 async function guardar_html(html, file) {
   return
   await fs.writeFile(process.cwd() + "/captura/" + file + ".html", html, 'utf8')
 }
 export { lanzar_curso }
 
-function msg_to_server(msg, data) {
-  //console.log("msg_to_server", msg, data)
-  return new Promise((resolve, reject) => {
-    try {
-      global.client_socket.emit(msg, data, (res) => {
-        resolve(res)
-      })
-    } catch (error) {
-      console.log(error)
-      resolve(false)
-    }
 
-  })
-}
 
 
 
