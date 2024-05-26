@@ -27,6 +27,7 @@ let headless = true
 setTimeout(async () => {
   await lanzar_curso(user, curso_data)
   console.log("cierro")
+  delay(2000)
   process.exit(0)
 
 }, Math.random() * 1000 + 1000)
