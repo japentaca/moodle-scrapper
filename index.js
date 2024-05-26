@@ -56,9 +56,10 @@ client_socket.on("start_scrapper", async (data) => {
   let procs_x_cpu = users.length / os.cpus().length
   if (procs_x_cpu < 1) procs_x_cpu = 1
   let procs_x_cpu_count = 0
-  console.group("procs_x_cpu", procs_x_cpu)
+  console.log("procs_x_cpu", procs_x_cpu)
   let proc_count = 0
   let parms = []
+  let usuarios_procesados = 0
   for (let i = 0; i < users.length; i++) {
 
     let user = users[i]
@@ -66,10 +67,11 @@ client_socket.on("start_scrapper", async (data) => {
       user: user,
       curso_data: data.curso_data
     })
-    proc_count++
+
     procs_x_cpu_count++
     if (procs_x_cpu_count >= procs_x_cpu) {
-      console.log("-----Lanzo proceso ", i, " Elementos", parms.length)
+      proc_count++
+      console.log("-----Lanzo proceso ", proc_count, " Elementos", parms.length)
       //prom_arr.push(lanzar_curso(user, data.curso_data))
       let proc = child_process.fork('./axios_scrapper.js', [JSON.stringify(parms)])
 
@@ -77,16 +79,17 @@ client_socket.on("start_scrapper", async (data) => {
         //console.log("msg from fork", msg)
         let temp = JSON.parse(msg)
         if (temp.data.texto == "FINAL") {
-          console.log("finalizo", proc_count)
-          proc_count--
-        }
-        if (proc_count == 0) {
-          procesando = false
-          console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
+          console.log("finalizo", usuarios_procesados)
+          usuarios_procesados++
+
+          if (usuarios_procesados >= users.length) {
+            procesando = false
+            console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
+
+          }
 
         }
         client_socket.emit(temp.type, temp.data)
-
       })
       procs_x_cpu_count = 0
       parms = []

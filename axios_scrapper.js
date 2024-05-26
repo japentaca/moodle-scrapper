@@ -10,7 +10,7 @@ let device_data = {
 let parms = null
 try {
   parms = JSON.parse(process.argv[2])
-  //console.log("parms", parms)
+  console.log("fork parms", parms.length)
 } catch (error) {
   console.log(error)
   process.exit(0)
@@ -25,23 +25,24 @@ let user_id = null
 let last_log = ""
 
 setTimeout(async () => {
-
+  let prom_arr = []
   for (let i = 0; i < parms.length; i++) {
 
     let user = parms[i].user.split(',')
+    console.log(process.pid, "lanzo curso", i, user[0])
+    prom_arr.push(lanzar_curso(user, parms[i].curso_data))
 
-    console.log("lanzo curso", user[0])
+    delay(1000)
 
-    await lanzar_curso(user, parms[i].curso_data)
-    console.log("cierro")
-    delay(2000)
-    process.exit(0)
   }
+
+  await Promise.all(prom_arr)
 }, Math.random() * 1000 + 1000)
 
 async function lanzar_curso(user, curso_data) {
   let user_email = user[0]
   let user_id = user[2]
+  let user_pass = user[1]
 
   return new Promise(async (resolve, reject) => {
     let start_time = Date.now()
@@ -75,7 +76,7 @@ async function lanzar_curso(user, curso_data) {
         },
         url: curso_data.login_url,
         method: 'post',
-        data: { username: user[0], password: user[1], logintoken: login_token },
+        data: { username: user_email, password: user_pass, logintoken: login_token },
         headers: {
           Cookie: cookies,
           "Content-Type": "application/x-www-form-urlencoded"
@@ -122,7 +123,7 @@ async function lanzar_curso(user, curso_data) {
 
 
 
-      loguear('voy al curso');
+      loguear('curso');
 
       response = await axios({
         url: curso_data.curso_url,
@@ -134,7 +135,7 @@ async function lanzar_curso(user, curso_data) {
       await guardar_html(response.data, "post_curso")
 
 
-      loguear("voy a quiz")
+      loguear("quiz")
       response = await axios({
         url: curso_data.quiz_url,
         method: 'get',
@@ -151,7 +152,7 @@ async function lanzar_curso(user, curso_data) {
       let input_sesskey = root.querySelector('input[name="sesskey"]').attributes.value
 
 
-      loguear("voy al start atttempt quiz")
+      loguear("start atttempt quiz")
       response = await axios({
         data: {
           cmid: input_cm_id,
@@ -302,7 +303,7 @@ async function lanzar_curso(user, curso_data) {
 
         process.send(JSON.stringify(msg))
 
-        console.log(user_email, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
+        //console.log(user_email, ((Date.now() - last_log_time) / 1000).toFixed(2), texto)
         last_log_time = Date.now()
         last_log = texto
 
