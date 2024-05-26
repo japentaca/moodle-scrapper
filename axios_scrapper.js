@@ -258,6 +258,7 @@ async function lanzar_curso(user, curso_data) {
       })
       await guardar_html(response.data, "post_logout2")
       loguear('FINAL');
+      delay(1000)
       let res_obj = {
         status: true,
         //user_email: user_email,
