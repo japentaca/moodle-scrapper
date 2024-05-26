@@ -40,8 +40,7 @@ function lanzar_curso(user, curso_data) {
       let login_token = root.querySelector('input[name="logintoken"]').attributes.value
 
       cookies = response.headers['set-cookie']
-      console.log("logintoken", login_token)
-      console.log("login_url", curso_data.login_url)
+
       response = await axios({
         maxRedirects: 0,
         validateStatus: function (status) {
@@ -58,12 +57,10 @@ function lanzar_curso(user, curso_data) {
 
       })
 
-      //console.log("response SC", response.status)
-      //console.log("response request", response.headers)
       await guardar_html(response.data, "post_login")
       if (response.status == 303) {
         cookies = response.headers['set-cookie']
-        console.log("redirecciono a ", response.headers.location)
+
         response = await axios({
           maxRedirects: 0,
           validateStatus: function (status) {
@@ -75,11 +72,10 @@ function lanzar_curso(user, curso_data) {
             Cookie: cookies
           },
         })
-        //console.log("redir 1 response SC", response.status)
-        //console.log("redir 1 response request", response.headers)
+
         if (response.status == 303) {
           //cookies = response.headers['set-cookie']
-          console.log("redirecciono 2", response.headers.location)
+
           response = await axios({
             maxRedirects: 0,
             validateStatus: function (status) {
@@ -92,16 +88,15 @@ function lanzar_curso(user, curso_data) {
               Cookie: cookies
             },
           })
-          //console.log("redir 2 response SC", response.status)
-          //console.log("redir 2 response request", response.headers)
+
           await guardar_html(response.data, "post_redirects")
         }
       }
 
 
-      //console.log("response", parse(response.data).toString())
+
       loguear('voy al curso');
-      console.log("voy a curso", curso_data.curso_url)
+
       response = await axios({
         url: curso_data.curso_url,
         method: 'get',
@@ -128,9 +123,7 @@ function lanzar_curso(user, curso_data) {
       let input_cm_id = root.querySelector('input[name="cmid"]').attributes.value
       let input_sesskey = root.querySelector('input[name="sesskey"]').attributes.value
 
-      console.log("input_cm_id", input_cm_id, "input_sesskey", input_sesskey)
 
-      console.log("voy al start atttempt quiz", curso_data.start_atttempt_quiz_url)
       loguear("voy al start atttempt quiz")
       response = await axios({
         data: {
@@ -148,12 +141,11 @@ function lanzar_curso(user, curso_data) {
           "Content-Type": "application/x-www-form-urlencoded"
         },
       })
-      //console.log("atempt quiz", response.status)
-      //console.log("attempt quiz response request", response.headers)
+
       if (response.status == 303) {
         //cookies = response.headers['set-cookie']
         next_location = response.headers.location
-        console.log("redirecciono quiz", response.headers.location)
+
         response = await axios({
           maxRedirects: 0,
           validateStatus: function (status) {
@@ -166,8 +158,6 @@ function lanzar_curso(user, curso_data) {
           },
         })
 
-        //console.log("redir quiz", response.status)
-        //console.log("redir quiz", response.headers)
         await guardar_html(response.data, "post_redirect_quiz")
       }
 
@@ -189,9 +179,8 @@ function lanzar_curso(user, curso_data) {
         })
 
 
-        console.log("hago post de los input a ", next_location)
         loguear('click next ' + i);
-        //console.log(quiz_post_data)
+
         response = await axios({
           data: quiz_post_data,
           maxRedirects: 0,
@@ -206,10 +195,10 @@ function lanzar_curso(user, curso_data) {
           },
         })
         guardar_html(response.data, "quiz_respuesta " + i)
-        console.log("quiz responder status " + i, response.status)
+
         if (response.status == 303) {
           //cookies = response.headers['set-cookie']
-          console.log("redirecciono pregunta quiz " + i, response.headers.location)
+
           response = await axios({
             maxRedirects: 0,
             validateStatus: function (status) {
@@ -221,9 +210,8 @@ function lanzar_curso(user, curso_data) {
               Cookie: cookies
             },
           })
-          //console.log("redir quiz", response.status)
-          //console.log("redir quiz", response.headers)
-          await delay(2000)
+
+
           await guardar_html(response.data, "post_redirect_quiz_pregunta" + i)
         }
 
@@ -246,7 +234,7 @@ function lanzar_curso(user, curso_data) {
       html = response.data
       root = parse(html)
       let sesskey = root.querySelector('input[name="sesskey"]').attributes.value
-      console.log("post_logout sesskey", sesskey)
+
       response = await axios({
         data: {
           sesskey: sesskey
@@ -263,7 +251,7 @@ function lanzar_curso(user, curso_data) {
       loguear('FINAL');
 
 
-      //console.log("total:", ((Date.now() - start_time) / 1000).toFixed(2), user_email)
+
       let res_obj = {
         status: true,
         //user_email: user_email,
@@ -275,9 +263,7 @@ function lanzar_curso(user, curso_data) {
       //global.client_socket.emit("end_item", res_obj)
 
       resolve(res_obj)
-      await delay(2000)
-      //loguear("killing browser")
-      //await kill_browser()
+
 
 
       async function loguear(texto, status = true) {
@@ -305,9 +291,6 @@ function lanzar_curso(user, curso_data) {
     } catch (error) {
 
       console.log(error.message)
-
-
-
       console.log(user_email, error.toString())
       let res_obj = {
         status: false,
@@ -340,7 +323,7 @@ async function guardar_html(html, file) {
 export { lanzar_curso }
 
 function msg_to_server(msg, data) {
-  console.log("msg_to_server", msg, data)
+  //console.log("msg_to_server", msg, data)
   return new Promise((resolve, reject) => {
     try {
       global.client_socket.emit(msg, data, (res) => {
