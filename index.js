@@ -75,6 +75,9 @@ client_socket.on("start_scrapper", async (data) => {
       //prom_arr.push(lanzar_curso(user, data.curso_data))
       let proc = child_process.fork('./axios_scrapper.js', [JSON.stringify(parms)])
 
+      proc.on("exit", (code) => {
+        console.log("exit", code)
+      })
       proc.on("message", (msg) => {
         //console.log("msg from fork", msg)
         let temp = JSON.parse(msg)
