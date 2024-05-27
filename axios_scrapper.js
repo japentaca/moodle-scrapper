@@ -390,16 +390,18 @@ function generateRandomString(length) {
 }
 
 async function bajar_contenido(html, axios_instance) {
+  let prom_arr = []
 
   let scripts = html.querySelectorAll('script')
   for (let i = 0; i < scripts.length; i++) {
     let script = scripts[i]
     let src = script.getAttribute('src')
     if (src) {
-      let response = await axios_instance({
+      prom_arr.push(axios_instance({
         url: src,
         method: 'get',
       })
+      )
     }
   }
 
@@ -408,11 +410,16 @@ async function bajar_contenido(html, axios_instance) {
   for (let i = 0; i < imgs.length; i++) {
     let src = imgs[i].getAttribute('src')
     if (src) {
-      let response = await axios_instance({
+      prom_arr.push(axios_instance({
         url: src,
         method: 'get',
       })
+      )
     }
+
   }
+
+  await Promise.all(prom_arr)
+
 
 }
