@@ -427,7 +427,7 @@ async function bajar_contenido(html, axios_instance) {
   } catch (error) {
 
     for (let i = 0; i < error.errors.length; i++) {
-      console.log("e request", error.errors[i].request)
+      console.log("e request", Object.keys(error.errors[i]))
     }
     //console.log("no pude bajar contenido", error.toString())
     //console.log("aggregate errors", error.errors.length)
