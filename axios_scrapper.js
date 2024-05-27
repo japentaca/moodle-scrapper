@@ -424,7 +424,7 @@ async function bajar_contenido(html, axios_instance) {
     await Promise.all(prom_arr)
 
   } catch (error) {
-    //console.log(error.toJSON())
+    console.log(error)
   }
 
 
