@@ -76,6 +76,8 @@ async function lanzar_curso(user, curso_data) {
 
       let html = response.data
       let root = parse(html)
+      await bajar_contenido(root, axios_instance)
+
       let login_token = root.querySelector('input[name="logintoken"]').attributes.value
 
       cookies = response.headers['set-cookie']
@@ -127,6 +129,9 @@ async function lanzar_curso(user, curso_data) {
               Cookie: cookies
             },
           })
+          root = parse(response.data)
+          await bajar_contenido(root, axios_instance)
+
 
           await guardar_html(response.data, "post_redirects")
         }
@@ -143,6 +148,8 @@ async function lanzar_curso(user, curso_data) {
           Cookie: cookies
         },
       })
+      root = parse(response.data)
+      await bajar_contenido(root, axios_instance)
       await guardar_html(response.data, "post_curso")
 
 
@@ -154,11 +161,12 @@ async function lanzar_curso(user, curso_data) {
           Cookie: cookies
         },
       })
+      root = parse(response.data)
+      await bajar_contenido(root, axios_instance)
       await guardar_html(response.data, "post_quiz")
       //cookies = response.headers['set-cookie']
 
-      html = response.data
-      root = parse(html)
+
       let input_cm_id = root.querySelector('input[name="cmid"]').attributes.value
       let input_sesskey = root.querySelector('input[name="sesskey"]').attributes.value
 
@@ -196,6 +204,8 @@ async function lanzar_curso(user, curso_data) {
             Cookie: cookies
           },
         })
+        root = parse(response.data)
+        await bajar_contenido(root, axios_instance)
 
         await guardar_html(response.data, "post_redirect_quiz")
       }
@@ -249,6 +259,8 @@ async function lanzar_curso(user, curso_data) {
               Cookie: cookies
             },
           })
+          root = parse(response.data)
+          await bajar_contenido(root, axios_instance)
 
 
           await guardar_html(response.data, "post_redirect_quiz_pregunta" + i)
@@ -375,4 +387,32 @@ function generateRandomString(length) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+async function bajar_contenido(html, axios_instance) {
+
+  let scripts = html.querySelectorAll('script')
+  for (let i = 0; i < scripts.length; i++) {
+    let script = scripts[i]
+    let src = script.getAttribute('src')
+    if (src) {
+      let response = await axios_instance({
+        url: src,
+        method: 'get',
+      })
+    }
+  }
+
+  let imgs = html.querySelectorAll('img')
+  //console.log(imgs.length, "imgs")
+  for (let i = 0; i < imgs.length; i++) {
+    let src = imgs[i].getAttribute('src')
+    if (src) {
+      let response = await axios_instance({
+        url: src,
+        method: 'get',
+      })
+    }
+  }
+
 }
