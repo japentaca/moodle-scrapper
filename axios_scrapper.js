@@ -390,7 +390,7 @@ function generateRandomString(length) {
 }
 
 async function bajar_contenido(html, axios_instance) {
-  return
+
   try {
     let prom_arr = []
 
@@ -427,7 +427,7 @@ async function bajar_contenido(html, axios_instance) {
   } catch (error) {
 
     for (let i = 0; i < error.errors.length; i++) {
-      //console.log(error.errors[i].toString())
+      console.log(error.errors[i].toString())
     }
     //console.log("no pude bajar contenido", error.toString())
     //console.log("aggregate errors", error.errors.length)
