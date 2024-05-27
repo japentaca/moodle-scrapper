@@ -77,21 +77,20 @@ client_socket.on("start_scrapper", async (data) => {
 
       proc.on("exit", (code) => {
         console.log("exit", code)
+        console.log("finalizo", usuarios_procesados)
+        usuarios_procesados++
+
+        if (usuarios_procesados >= users.length) {
+          procesando = false
+          console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
+
+        }
+
       })
       proc.on("message", (msg) => {
         //console.log("msg from fork", msg)
         let temp = JSON.parse(msg)
-        if (temp.data.texto == "FINAL") {
-          console.log("finalizo", usuarios_procesados)
-          usuarios_procesados++
 
-          if (usuarios_procesados >= users.length) {
-            procesando = false
-            console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
-
-          }
-
-        }
         client_socket.emit(temp.type, temp.data)
       })
       procs_x_cpu_count = 0
