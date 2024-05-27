@@ -390,37 +390,40 @@ function generateRandomString(length) {
 }
 
 async function bajar_contenido(html, axios_instance) {
-  let prom_arr = []
+  try {
+    let prom_arr = []
 
-  let scripts = html.querySelectorAll('script')
-  for (let i = 0; i < scripts.length; i++) {
-    let script = scripts[i]
-    let src = script.getAttribute('src')
-    if (src) {
-      prom_arr.push(axios_instance({
-        url: src,
-        method: 'get',
-      })
-      )
-    }
-  }
-
-  let imgs = html.querySelectorAll('img')
-  //console.log(imgs.length, "imgs")
-  for (let i = 0; i < imgs.length; i++) {
-    let src = imgs[i].getAttribute('src')
-    if (src) {
-      prom_arr.push(axios_instance({
-        url: src,
-        method: 'get',
-      })
-      )
+    let scripts = html.querySelectorAll('script')
+    for (let i = 0; i < scripts.length; i++) {
+      let script = scripts[i]
+      let src = script.getAttribute('src')
+      if (src) {
+        prom_arr.push(axios_instance({
+          url: src,
+          method: 'get',
+        })
+        )
+      }
     }
 
-  }
-  if (prom_arr.length == 0) return
+    let imgs = html.querySelectorAll('img')
+    //console.log(imgs.length, "imgs")
+    for (let i = 0; i < imgs.length; i++) {
+      let src = imgs[i].getAttribute('src')
+      if (src) {
+        prom_arr.push(axios_instance({
+          url: src,
+          method: 'get',
+        })
+        )
+      }
 
-  await Promise.all(prom_arr)
+    }
+    if (prom_arr.length == 0) return
+
+    await Promise.all(prom_arr)
+
+  } catch (error) { console.log(error) }
 
 
 }
