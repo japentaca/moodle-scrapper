@@ -18,10 +18,7 @@ try {
 
 //console.log("lancar_curso", curso_data)
 
-let cookies = {}
 
-
-let last_log = ""
 
 setTimeout(async () => {
   let prom_arr = []
@@ -43,7 +40,10 @@ setTimeout(async () => {
 async function lanzar_curso(user, curso_data) {
 
 
+  let cookies = {}
 
+
+  let last_log = ""
   let user_email = user[0]
   let user_id = user[2]
   let user_pass = user[1]
