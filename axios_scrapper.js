@@ -424,6 +424,11 @@ async function bajar_contenido(html, axios_instance) {
     await Promise.all(prom_arr)
 
   } catch (error) {
+
+    for (let i = 0; i < error.errors.length; i++) {
+      console.log(error.errors[i].url)
+    }
+    console.log("no pude bajar contenido", error.toString())
     console.log("aggregate errors", error.errors.length)
   }
 
