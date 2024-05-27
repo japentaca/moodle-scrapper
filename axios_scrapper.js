@@ -20,8 +20,7 @@ try {
 
 let cookies = {}
 
-let user_email = null
-let user_id = null
+
 let last_log = ""
 
 setTimeout(async () => {
@@ -37,6 +36,8 @@ setTimeout(async () => {
   }
 
   await Promise.all(prom_arr)
+
+  process.exit(0)
 }, Math.random() * 1000 + 1000)
 
 async function lanzar_curso(user, curso_data) {
