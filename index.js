@@ -59,7 +59,7 @@ client_socket.on("start_scrapper", async (data) => {
   console.log("procs_x_cpu", procs_x_cpu)
   let proc_count = 0
   let parms = []
-  let usuarios_procesados = 0
+  let procs_finalizados = 0
   for (let i = 0; i < users.length; i++) {
 
     let user = users[i]
@@ -77,10 +77,10 @@ client_socket.on("start_scrapper", async (data) => {
 
       proc.on("exit", (code) => {
         console.log("exit", code)
-        console.log("finalizo", usuarios_procesados)
-        usuarios_procesados++
+        console.log("finalizo", procs_finalizados)
+        procs_finalizados++
 
-        if (usuarios_procesados >= users.length) {
+        if (procs_finalizados >= proc_count) {
           procesando = false
           console.log("stop time", ((Date.now() - start_time) / 1000).toFixed(2))
 
