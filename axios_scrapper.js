@@ -398,7 +398,9 @@ async function bajar_contenido(html, axios_instance) {
     for (let i = 0; i < scripts.length; i++) {
       let script = scripts[i]
       let src = script.getAttribute('src')
+
       if (src) {
+        //console.log(src)
         prom_arr.push(axios_instance({
           url: src,
           method: 'get',
@@ -412,6 +414,7 @@ async function bajar_contenido(html, axios_instance) {
     for (let i = 0; i < imgs.length; i++) {
       let src = imgs[i].getAttribute('src')
       if (src) {
+        //console.log(src)
         prom_arr.push(axios_instance({
           url: src,
           method: 'get',
@@ -422,7 +425,17 @@ async function bajar_contenido(html, axios_instance) {
     }
     if (prom_arr.length == 0) return
 
-    await Promise.all(prom_arr)
+    let res_prom = await Promise.all(prom_arr)
+    res_prom.map(res => {
+      if (res.status !== 200) {
+        console.log("resprom", res.status)
+
+      }
+      //console.log(Object.keys(res.request))
+      //console.log(res.request.host)
+
+    })
+    //console.log(res_prom.length)
 
   } catch (error) {
 
