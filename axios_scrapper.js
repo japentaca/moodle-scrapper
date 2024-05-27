@@ -418,6 +418,7 @@ async function bajar_contenido(html, axios_instance) {
     }
 
   }
+  if (prom_arr.length == 0) return
 
   await Promise.all(prom_arr)
 
