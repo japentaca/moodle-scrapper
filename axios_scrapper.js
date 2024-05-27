@@ -76,12 +76,13 @@ async function lanzar_curso(user, curso_data) {
 
       let html = response.data
       let root = parse(html)
+      await delay(1000)
       await bajar_contenido(root, axios_instance)
 
       let login_token = root.querySelector('input[name="logintoken"]').attributes.value
 
       cookies = response.headers['set-cookie']
-
+      await delay(1000)
       response = await axios_instance({
         maxRedirects: 0,
         validateStatus: function (status) {
@@ -101,7 +102,7 @@ async function lanzar_curso(user, curso_data) {
       await guardar_html(response.data, "post_login")
       if (response.status == 303) {
         cookies = response.headers['set-cookie']
-
+        await delay(1000)
         response = await axios_instance({
           maxRedirects: 0,
           validateStatus: function (status) {
@@ -140,7 +141,7 @@ async function lanzar_curso(user, curso_data) {
 
 
       loguear('curso');
-
+      await delay(1000)
       response = await axios_instance({
         url: curso_data.curso_url,
         method: 'get',
@@ -172,6 +173,7 @@ async function lanzar_curso(user, curso_data) {
 
 
       loguear("start atttempt quiz")
+      await delay(1000)
       response = await axios_instance({
         data: {
           cmid: input_cm_id,
@@ -260,6 +262,7 @@ async function lanzar_curso(user, curso_data) {
             },
           })
           root = parse(response.data)
+          await delay(1000)
           await bajar_contenido(root, axios_instance)
 
 
