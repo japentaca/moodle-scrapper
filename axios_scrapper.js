@@ -28,7 +28,7 @@ setTimeout(async () => {
     console.log(process.pid, "lanzo curso", i, user[0])
     prom_arr.push(lanzar_curso(user, parms[i].curso_data))
 
-    await delay(1000)
+    //await delay(1000)
 
   }
 
