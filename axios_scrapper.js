@@ -2,7 +2,7 @@ import os from "os"
 import { parse } from 'node-html-parser';
 import axios from 'axios';
 import fs from 'fs/promises';
-axios.defaults.withCredentials = true;
+
 let device_data = {
   platform: os.platform(),
   arch: os.arch(), release: os.release(), totalmem: os.totalmem() / 1024, freemem: os.freemem() / 1024, hostname: os.hostname(), cpus: os.cpus().length
@@ -41,6 +41,9 @@ setTimeout(async () => {
 }, Math.random() * 1000 + 1000)
 
 async function lanzar_curso(user, curso_data) {
+
+
+
   let user_email = user[0]
   let user_id = user[2]
   let user_pass = user[1]
@@ -54,10 +57,17 @@ async function lanzar_curso(user, curso_data) {
       let response = null
 
       let next_location = null
+      const axios_instance = axios.create({
+        baseURL: 'https://moodle.org',
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
+      axios_instance.defaults.withCredentials = true;
       //await delay(Math.random() * 5000 + 1000)
 
       loguear('entro a login_url');
-      response = await axios.get(curso_data.login_url, {
+      response = await axios_instance.get(curso_data.login_url, {
 
       })
       loguear('entré a login_url');
@@ -70,7 +80,7 @@ async function lanzar_curso(user, curso_data) {
 
       cookies = response.headers['set-cookie']
 
-      response = await axios({
+      response = await axios_instance({
         maxRedirects: 0,
         validateStatus: function (status) {
           return status >= 200 && status < 400; // default
@@ -90,7 +100,7 @@ async function lanzar_curso(user, curso_data) {
       if (response.status == 303) {
         cookies = response.headers['set-cookie']
 
-        response = await axios({
+        response = await axios_instance({
           maxRedirects: 0,
           validateStatus: function (status) {
             return status >= 200 && status < 400; // default
@@ -105,7 +115,7 @@ async function lanzar_curso(user, curso_data) {
         if (response.status == 303) {
           //cookies = response.headers['set-cookie']
 
-          response = await axios({
+          response = await axios_instance({
             maxRedirects: 0,
             validateStatus: function (status) {
               return status >= 200 && status < 400; // default
@@ -126,7 +136,7 @@ async function lanzar_curso(user, curso_data) {
 
       loguear('curso');
 
-      response = await axios({
+      response = await axios_instance({
         url: curso_data.curso_url,
         method: 'get',
         headers: {
@@ -137,7 +147,7 @@ async function lanzar_curso(user, curso_data) {
 
 
       loguear("quiz")
-      response = await axios({
+      response = await axios_instance({
         url: curso_data.quiz_url,
         method: 'get',
         headers: {
@@ -154,7 +164,7 @@ async function lanzar_curso(user, curso_data) {
 
 
       loguear("start atttempt quiz")
-      response = await axios({
+      response = await axios_instance({
         data: {
           cmid: input_cm_id,
           sesskey: input_sesskey
@@ -175,7 +185,7 @@ async function lanzar_curso(user, curso_data) {
         //cookies = response.headers['set-cookie']
         next_location = response.headers.location
 
-        response = await axios({
+        response = await axios_instance({
           maxRedirects: 0,
           validateStatus: function (status) {
             return status >= 200 && status < 400; // default
@@ -210,7 +220,7 @@ async function lanzar_curso(user, curso_data) {
 
         loguear('paso ' + i);
 
-        response = await axios({
+        response = await axios_instance({
           data: quiz_post_data,
           maxRedirects: 0,
           validateStatus: function (status) {
@@ -228,7 +238,7 @@ async function lanzar_curso(user, curso_data) {
         if (response.status == 303) {
           //cookies = response.headers['set-cookie']
 
-          response = await axios({
+          response = await axios_instance({
             maxRedirects: 0,
             validateStatus: function (status) {
               return status >= 200 && status < 400; // default
@@ -247,7 +257,7 @@ async function lanzar_curso(user, curso_data) {
       }
       loguear('logout');
 
-      response = await axios({
+      response = await axios_instance({
         url: curso_data.logout_url,
         method: 'get',
         headers: {
@@ -259,7 +269,7 @@ async function lanzar_curso(user, curso_data) {
       root = parse(html)
       let sesskey = root.querySelector('input[name="sesskey"]').attributes.value
 
-      response = await axios({
+      response = await axios_instance({
         data: {
           sesskey: sesskey
         },
