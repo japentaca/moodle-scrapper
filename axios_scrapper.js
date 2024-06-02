@@ -318,7 +318,7 @@ async function lanzar_curso(user, curso_data) {
             user_email: user_email,
             total_time: ((Date.now() - start_time) / 1000).toFixed(2),
             hostname: device_data.hostname,
-            //duration: ((Date.now() - last_log_time) / 1000).toFixed(2),
+            duration: ((Date.now() - last_log_time) / 1000).toFixed(2),
             //user_email: user_email,
             texto: texto,
             last_log: last_log
