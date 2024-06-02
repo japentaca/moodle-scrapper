@@ -43,6 +43,7 @@ async function lanzar_curso(user, curso_data) {
   let cookies = {}
 
 
+  let total_quiz_time = 0
   let last_log = ""
   let user_email = user[0]
   let user_id = user[2]
@@ -214,6 +215,7 @@ async function lanzar_curso(user, curso_data) {
 
       //aca empezaría el loop
 
+      let quiz_start_time = Date.now()
       for (let i = 0; i < curso_data.quiz_pages; i++) {
         html = response.data
         root = parse(html)
@@ -270,6 +272,7 @@ async function lanzar_curso(user, curso_data) {
         }
         await delay(1000)
       }
+      total_quiz_time = ((Date.now() - quiz_start_time) / 1000).toFixed(2)
       loguear('logout');
 
       response = await axios_instance({
@@ -315,11 +318,11 @@ async function lanzar_curso(user, curso_data) {
             status: status,
             start_time: new Date(start_time).toLocaleTimeString(),
             user_id: user_id,
-            user_email: user_email,
+            user_email: user_email.substring(0, 8),
+            total_quiz_time: total_quiz_time,
             total_time: ((Date.now() - start_time) / 1000).toFixed(2),
             hostname: device_data.hostname,
             duration: ((Date.now() - last_log_time) / 1000).toFixed(2),
-            //user_email: user_email,
             texto: texto,
             last_log: last_log
 
@@ -343,7 +346,7 @@ async function lanzar_curso(user, curso_data) {
         //user_email: user_email,
         start_time: new Date(start_time).toLocaleTimeString(),
         user_id: user_id,
-        user_email: user_email,
+        user_email: user_email.substring(0, 8),
         total_time: ((Date.now() - start_time) / 1000).toFixed(2),
         hostname: device_data.hostname,
         texto: error.toString(),
